@@ -24,8 +24,11 @@ const features = [
 
 const AppExplanation = () => {
   return (
-    <section id="how-it-works" className="py-20 lg:py-32 bg-background">
-      <div className="container mx-auto px-6">
+    <section id="how-it-works" className="py-20 lg:py-32 bg-background relative">
+      {/* Gradient overlay at bottom for transition to next section */}
+      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-b from-transparent to-primary pointer-events-none" />
+      
+      <div className="container mx-auto px-6 relative z-10">
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-primary mb-16">
           The Ultimate Credit Card
           <br />
@@ -79,7 +82,11 @@ const AppExplanation = () => {
               <img
                 src={phoneMockup}
                 alt="Wallzy App Interface"
-                className="w-64 md:w-72 lg:w-80 drop-shadow-2xl"
+                className="w-64 md:w-72 lg:w-80 drop-shadow-2xl rounded-[2.5rem]"
+                style={{ 
+                  background: "transparent",
+                  mixBlendMode: "normal"
+                }}
               />
             </div>
             {/* Glow effect */}
