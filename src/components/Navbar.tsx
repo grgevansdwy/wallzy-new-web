@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,26 +7,25 @@ const Navbar = () => {
   const navLinks = [
     { name: "Home", href: "#home" },
     { name: "How It Works", href: "#how-it-works" },
-    { name: "Features", href: "#features" },
     { name: "About Us", href: "#about" },
     { name: "FAQ", href: "#faq" },
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 gradient-hero">
-      <div className="container mx-auto px-6 py-4">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-primary">
+      <div className="container mx-auto px-6 py-5">
         <div className="flex items-center justify-between">
-          <a href="#home" className="text-2xl font-bold text-primary-foreground">
+          <a href="#home" className="text-2xl font-bold text-primary-foreground tracking-tight">
             Wallzy
           </a>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-12">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
-                className="text-primary-foreground/90 hover:text-primary-foreground transition-colors font-medium"
+                className="text-primary-foreground/90 hover:text-primary-foreground transition-colors font-medium text-sm tracking-wide"
               >
                 {link.name}
               </a>
