@@ -1,51 +1,58 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@400;500;600;700;800;900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@400;500;600;700;800;900&display=swap');
-
 @layer base {
   :root {
     --background: 210 20% 96%;
-    --foreground: 213 80% 27%;
+    --foreground: 0 60% 27%;
 
     --card: 0 0% 100%;
-    --card-foreground: 213 80% 27%;
+    --card-foreground: 0 60% 27%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 213 80% 27%;
+    --popover-foreground: 0 60% 27%;
 
-    --primary: 213 100% 27%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 211 75% 27%;
+    --primary-foreground: 0 0% 98%;
 
-    --secondary: 45 100% 50%;
-    --secondary-foreground: 213 100% 27%;
+    --secondary: 39 100% 51%;
+    --secondary-foreground: 211 75% 27%;
 
     --muted: 210 20% 96%;
-    --muted-foreground: 213 40% 40%;
+    --muted-foreground: 211 40% 40%;
 
-    --accent: 211 66% 58%;
+    --accent: 199 100% 54%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 213 30% 85%;
-    --input: 213 30% 85%;
-    --ring: 213 100% 27%;
+    --border: 211 30% 85%;
+    --input: 211 30% 85%;
+    --ring: 211 100% 27%;
 
     --radius: 0.75rem;
 
     /* Custom Wallzy tokens */
-    --wallzy-blue: 213 100% 27%;
-    --wallzy-orange: 45 100% 50%;
-    --wallzy-light-blue: 211 66% 58%;
+    --wallzy-blue: 211 75% 27%;
+    --wallzy-orange: 39 100% 51%;
+    --wallzy-light-blue: 199 100% 54%;
     --wallzy-white: 210 20% 96%;
-    
+
     /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(213 100% 27%) 0%, hsl(211 66% 58%) 100%);
-    --gradient-card: linear-gradient(180deg, hsl(0 0% 100% / 0.8) 0%, hsl(0 0% 100% / 0.4) 100%);
-    
+    --gradient-hero: linear-gradient(
+      135deg,
+      hsl(213 100% 27%) 0%,
+      hsl(211 66% 58%) 100%
+    );
+    --gradient-card: linear-gradient(
+      180deg,
+      hsl(0 0% 100% / 0.8) 0%,
+      hsl(0 0% 100% / 0.4) 100%
+    );
+
     /* Glass effect */
     --glass-bg: hsl(0 0% 100% / 0.15);
     --glass-border: hsl(0 0% 100% / 0.3);
@@ -74,13 +81,13 @@
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
+  /* * {
+    @apply border border-border;
+  } */
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Roboto Flex', sans-serif;
+    font-family: "Roboto Flex", sans-serif;
   }
 
   html {
@@ -98,43 +105,56 @@
   }
 
   .glass-hero-card {
-    background: linear-gradient(135deg, hsl(211 66% 58% / 0.6) 0%, hsl(211 66% 70% / 0.4) 100%);
+    background: linear-gradient(
+      135deg,
+      hsl(211 66% 58% / 0.6) 0%,
+      hsl(211 66% 70% / 0.4) 100%
+    );
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid hsl(0 0% 100% / 0.2);
     box-shadow: 0 25px 50px -12px hsl(213 100% 10% / 0.25);
   }
-  
+
   .gradient-hero {
     background: var(--gradient-hero);
   }
 
   .gradient-section-transition {
-    background: linear-gradient(180deg, hsl(210 20% 96%) 0%, hsl(213 100% 27%) 100%);
+    background: linear-gradient(
+      180deg,
+      hsl(210 20% 96%) 0%,
+      hsl(213 100% 27%) 100%
+    );
   }
-  
+
   .text-gradient {
-    background: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(45 100% 60%) 100%);
+    background: linear-gradient(
+      135deg,
+      hsl(var(--secondary)) 0%,
+      hsl(45 100% 60%) 100%
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-  
+
   .floating-animation {
     animation: float 6s ease-in-out infinite;
   }
-  
+
   .floating-animation-delayed {
     animation: float 6s ease-in-out infinite 2s;
   }
-  
+
   .floating-animation-slow {
     animation: float 8s ease-in-out infinite 1s;
   }
 }
 
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0) rotate(0deg);
   }
   50% {

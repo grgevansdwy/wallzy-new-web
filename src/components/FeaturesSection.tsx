@@ -5,21 +5,21 @@ const features = [
     icon: Settings,
     title: "Set Once, Forget It",
     description:
-      "Simply add your credit cards once, and Wallzy takes care of the rest. No daily effort needed—just effortless rewards optimization on autopilot.",
+      "Simply select the cards you own, no bank logins or personal data required. Wallzy helps you earn rewards, without you ever having to open the app.",
     color: "bg-primary",
   },
   {
     icon: Bell,
     title: "Smart Notifications",
     description:
-      "Get silent notifications for credit card rewards the moment you walk in. Gentle reminders that help you earn more without any interruption.",
+      "Get a quiet live notification for the best offers the moment you walk in. And once you leave, the notification disappears.",
     color: "bg-accent",
   },
   {
     icon: TrendingUp,
-    title: "Earn More Rewards",
+    title: "Earn more, effortlessly",
     description:
-      "Maximize your cashback and points on every purchase. Never miss a credit card opportunity and watch your rewards grow effortlessly.",
+      "Never wonder which card to use again. Wallzy ensures you're using the best card for every single purchase.",
     color: "bg-secondary",
   },
 ];

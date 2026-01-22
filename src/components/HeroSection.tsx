@@ -8,42 +8,62 @@ const HeroSection = () => {
       className="relative min-h-screen bg-primary overflow-hidden pt-20"
     >
       {/* Light beam decorative elements */}
-      <div className="absolute right-0 top-1/4 w-[600px] h-[800px] opacity-30">
-        <div 
+      <div className="hidden md:block absolute right-0 top-1/4 w-[600px] h-[800px] opacity-30">
+        <div
           className="absolute w-full h-full bg-gradient-to-br from-accent/40 to-transparent"
           style={{ transform: "rotate(-15deg) translateX(100px)" }}
         />
       </div>
 
-      <div className="container mx-auto px-6 py-20 lg:py-32">
+      {/* Square background for mobile only */}
+      <div className="md:hidden absolute left-1/2 -translate-x-1/2 top-24 w-80 h-80 bg-secondary/30 rounded-3xl blur-3xl opacity-80 z-0" />
+
+      <div className="container mx-auto px-6 py-12 lg:py-24">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
-          <div className="space-y-8 animate-fade-in-up">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-primary-foreground leading-tight tracking-tight">
-              Stop Guessing,
-              <br />
-              <span className="inline-block">
-                Start{" "}
-                <span className="bg-secondary text-secondary-foreground px-3 py-1">
-                  Earning.
+          <div className="space-y-7 animate-fade-in-up -mt-2 md:-mt-6 text-center md:text-left">
+            {/* Stacked cards for mobile only (two-card stack) */}
+            <div className="relative h-48 mt-20 mb-2 block md:hidden">
+              <div className="absolute left-1/2 -translate-x-[52%] -top-1 w-48 h-32 rounded-2xl bg-blue-400/80 shadow-xl rotate-[-6deg]">
+                <div className="absolute top-3 left-3 w-9 h-9 rounded-full bg-white/20" />
+              </div>
+              <div className="absolute left-1/2 -translate-x-1/2 top-3 w-48 h-32 rounded-2xl bg-secondary/90 shadow-xl rotate-[5deg]">
+                <div className="absolute top-3 left-3 w-10 h-10 rounded-full bg-white/25" />
+                <div className="absolute bottom-3 right-3 w-14 h-4 rounded-full bg-white/30" />
+              </div>
+            </div>
+            <h1 className="text-4xl md:text-4xl lg:text-6xl font-black text-primary-foreground leading-tight tracking-tight">
+              <div>Stop Guessing,</div>
+              <div className="mt-1 lg:mt-4">
+                <span className="inline-block">
+                  Start{" "}
+                  <span className="bg-secondary text-secondary-foreground px-3 py-1">
+                    Earning.
+                  </span>
                 </span>
-              </span>
+              </div>
             </h1>
-            <p className="text-lg md:text-xl text-primary-foreground/80 max-w-lg">
-              Helping University of Washington students to earn more.
+            <p className="text-base md:text-lg text-primary-foreground/80 max-w-lg mx-auto md:mx-0 mb-6">
+              Helping you earn more from every purchase.
             </p>
-            <Button
-              size="lg"
-              className="bg-accent text-primary-foreground hover:bg-accent/90 font-semibold px-8 py-6 text-lg rounded-lg group"
-              onClick={() => document.getElementById("waitlist")?.scrollIntoView({ behavior: "smooth" })}
-            >
-              Start Earning
-              <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-            </Button>
+            <div className="flex justify-center md:justify-start">
+              <Button
+                size="lg"
+                className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-semibold px-8 md:px-6 py-6 md:py-4 text-lg md:text-base rounded-lg group"
+                onClick={() =>
+                  document
+                    .getElementById("waitlist")
+                    ?.scrollIntoView({ behavior: "smooth" })
+                }
+              >
+                Start Earning
+                <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </div>
           </div>
 
           {/* Right Content - Glassmorphism Cards */}
-          <div className="relative h-[400px] lg:h-[500px]">
+          <div className="relative h-[400px] lg:h-[500px] hidden md:block">
             {/* Blue glassmorphism card */}
             <div
               className="absolute top-0 right-0 lg:right-10 w-64 lg:w-80 h-44 lg:h-52 rounded-2xl floating-animation glass-hero-card"
@@ -51,7 +71,7 @@ const HeroSection = () => {
             >
               <div className="absolute top-6 left-6 w-10 h-10 rounded-full bg-white/20" />
             </div>
-            
+
             {/* Gold/Yellow card */}
             <div
               className="absolute bottom-16 right-16 lg:right-28 w-56 lg:w-72 h-36 lg:h-44 rounded-2xl floating-animation-delayed bg-secondary/90 shadow-xl"

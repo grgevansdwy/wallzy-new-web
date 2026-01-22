@@ -9,12 +9,12 @@ const faqs = [
   {
     question: "What is Wallzy?",
     answer:
-      "Wallzy is an app that suggests the best credit card for you to use through a simple notification. We help you get the most rewards every time you shop.",
+      "An app that suggests the best credit card for you to use through a simple notification. We help you get the most rewards every time you shop.",
   },
   {
     question: "How does Wallzy work?",
     answer:
-      "Based on where you are, Wallzy sends you a silent notification. It recommends which credit card in your wallet gives you the best rewards or cashback at that specific store.",
+      "Wallzy sends you a silent notification. It recommends which credit card in your wallet gives you the best rewards or deals at that specific store.",
   },
   {
     question: "Is Wallzy safe, and can it hurt my credit score?",
@@ -24,7 +24,7 @@ const faqs = [
   {
     question: "How is Wallzy different from other recommendation apps?",
     answer:
-      "Wallzy is made by UW students for UW students. We work directly with local UW merchants so you get the most accurate earnings at the stores you actually visit around campus.",
+      "Wallzy has no affiliation with banks and will always be on your side. We also adopt set once, forget it approach so you never have to open the app again.",
   },
   {
     question: "How can I get early access to Wallzy?",
