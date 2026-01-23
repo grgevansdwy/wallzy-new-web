@@ -50,8 +50,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Change this from '.' to 'y' to match your outDir
-          path: './y' 
+          # Change this from '.' to 'dist' to match your outDir
+          path: './dist' 
 
       - name: Deploy to GitHub Pages
         id: deployment
