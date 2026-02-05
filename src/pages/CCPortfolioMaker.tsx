@@ -857,7 +857,7 @@ export default function CCPortfolioMaker() {
                 <Button
                   onClick={() => setStep("card-selection")}
                   variant="outline"
-                  className="border-white/20 text-wallzy-white hover:bg-white/10 rounded-full"
+                  className="border-wallzy-lightBlue text-wallzy-lightBlue hover:bg-wallzy-lightBlue/20 rounded-full"
                 >
                   Cancel
                 </Button>
@@ -1001,11 +1001,6 @@ export default function CCPortfolioMaker() {
                   Adjust the sliders or type exact amounts. This helps me
                   calculate your potential rewards.
                 </p>
-                {!hasBiltCard && (
-                  <p className="text-sm text-wallzy-yellow/80 mt-2">
-                    💡 Note: We're not showing rent since most people pay via checking account. We'll recommend BILT if you pay rent!
-                  </p>
-                )}
               </ChatBubble>
 
               <motion.div
@@ -1053,32 +1048,6 @@ export default function CCPortfolioMaker() {
                   );
                 })}
 
-                {/* Hidden rent input for recommendation purposes */}
-                {!hasBiltCard && (
-                  <div className="border-t border-white/10 pt-4">
-                    <p className="text-wallzy-white/70 text-sm mb-2">
-                      Do you pay rent monthly? (So we can recommend BILT if helpful)
-                    </p>
-                    <div className="flex items-center gap-2">
-                      <span className="text-wallzy-white/70">$</span>
-                      <Input
-                        type="number"
-                        min="0"
-                        max="5000"
-                        placeholder="0"
-                        value={spending.rent || ""}
-                        onChange={(e) =>
-                          setSpending({
-                            ...spending,
-                            rent: parseInt(e.target.value) || 0,
-                          })
-                        }
-                        className="w-32 h-8 bg-white/10 border-white/20 text-wallzy-white text-sm"
-                      />
-                      <span className="text-wallzy-white/50 text-sm">/month</span>
-                    </div>
-                  </div>
-                )}
               </motion.div>
 
               <motion.div
