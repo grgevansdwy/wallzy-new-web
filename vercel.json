@@ -1,4 +1,5 @@
 {
+  "outputDirectory": "y",
   "rewrites": [
     {
       "source": "/api/:path*",
