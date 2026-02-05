@@ -8,18 +8,17 @@ import { Slider } from "@/components/ui/slider";
 import { studentCards, CreditCard } from "@/lib/studentCards";
 import { commonCards } from "@/lib/commonCards";
 
-// Spending categories - Rent is conditionally shown based on BILT ownership
-const BASE_CATEGORIES = [
+// Spending categories
+const CATEGORIES = [
   { key: "grocery", label: "Groceries", icon: "🛒" },
   { key: "dining", label: "Dining", icon: "🍽️" },
+  { key: "rent", label: "Rent", icon: "🏠" },
   { key: "gas", label: "Gas", icon: "⛽" },
   { key: "online", label: "Online Shopping", icon: "📦" },
   { key: "travel", label: "Travel", icon: "✈️" },
   { key: "streaming", label: "Streaming/Subscriptions", icon: "📺" },
   { key: "transit", label: "Transit", icon: "🚌" },
 ] as const;
-
-const RENT_CATEGORY = { key: "rent", label: "Rent", icon: "🏠" } as const;
 
 type CategoryKey = "grocery" | "dining" | "rent" | "gas" | "online" | "travel" | "streaming" | "transit";
 
@@ -164,19 +163,6 @@ export default function CCPortfolioMaker() {
 
   // Check if user has BILT card (for rent category logic)
   const hasBiltCard = selectedCards.some((c) => c.name === "Bilt Mastercard");
-
-  // Get categories to show (include rent only if user has BILT)
-  const getCategories = () => {
-    if (hasBiltCard) {
-      return [
-        BASE_CATEGORIES[0], // grocery
-        BASE_CATEGORIES[1], // dining
-        RENT_CATEGORY,      // rent - only if BILT
-        ...BASE_CATEGORIES.slice(2),
-      ];
-    }
-    return BASE_CATEGORIES;
-  };
 
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -394,7 +380,7 @@ export default function CCPortfolioMaker() {
     const cardReasons: Record<string, string[]> = {};
 
     // Get categories based on BILT ownership
-    const categoriesToCalculate = getCategories();
+    const categoriesToCalculate = CATEGORIES;
 
     for (const cat of categoriesToCalculate) {
       const categoryKey = cat.key as CategoryKey;
@@ -825,7 +811,7 @@ export default function CCPortfolioMaker() {
                     Category Bonuses (optional - enter % values)
                   </p>
                   <div className="grid grid-cols-2 gap-3">
-                    {[...BASE_CATEGORIES, RENT_CATEGORY].map((cat) => (
+                    {CATEGORIES.map((cat) => (
                       <div key={cat.key}>
                         <label className="text-wallzy-white/60 text-xs mb-1 block">
                           {cat.icon} {cat.label} (%)
@@ -1009,7 +995,7 @@ export default function CCPortfolioMaker() {
                 transition={{ delay: 0.2 }}
                 className="bg-white/5 rounded-2xl p-4 border border-white/10 space-y-6"
               >
-                {getCategories().map((cat) => {
+                {CATEGORIES.map((cat) => {
                   const categoryKey = cat.key as CategoryKey;
                   return (
                     <div key={cat.key}>
