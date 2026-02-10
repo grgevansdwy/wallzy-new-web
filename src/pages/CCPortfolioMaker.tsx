@@ -101,7 +101,7 @@ const ChatBubble = ({
     initial={{ opacity: 0, y: 20, scale: 0.95 }}
     animate={{ opacity: 1, y: 0, scale: 1 }}
     transition={{ duration: 0.3, delay }}
-    className={`max-w-[85%] md:max-w-[70%] ${isUser ? "ml-auto" : "mr-auto"}`}
+    className="w-full"
   >
     <div
       className={`rounded-2xl px-4 py-3 ${
@@ -585,7 +585,7 @@ export default function CCPortfolioMaker() {
       {/* Chat Container */}
       <div
         ref={chatContainerRef}
-        className="flex-1 overflow-y-auto p-4 space-y-4"
+        className="flex-1 overflow-y-auto p-4 space-y-4 max-w-4xl mx-auto w-full"
       >
         {/* Welcome Message */}
         <AnimatePresence mode="wait">
@@ -1279,8 +1279,7 @@ export default function CCPortfolioMaker() {
               >
                 <Button
                   onClick={handleReset}
-                  variant="outline"
-                  className="border-wallzy-yellow text-wallzy-yellow hover:bg-wallzy-yellow/10 rounded-full"
+                  className="bg-wallzy-yellow hover:bg-wallzy-yellow/90 text-wallzy-darkBlue font-semibold px-8 py-6 text-lg rounded-full"
                 >
                   Start Over
                 </Button>
