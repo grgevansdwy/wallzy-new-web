@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 const HeroSection = () => {
@@ -46,7 +47,7 @@ const HeroSection = () => {
             <p className="text-base md:text-lg text-primary-foreground/80 max-w-lg mx-auto md:mx-0 mb-6">
               Helping you earn more from every purchase.
             </p>
-            <div className="flex justify-center md:justify-start">
+            <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-4">
               <Button
                 size="lg"
                 className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-semibold px-8 md:px-6 py-6 md:py-4 text-lg md:text-base rounded-lg group"
@@ -58,6 +59,17 @@ const HeroSection = () => {
               >
                 Start Earning
                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="border-2 border-white text-white bg-transparent hover:bg-white/15 font-semibold px-8 md:px-6 py-6 md:py-4 text-lg md:text-base rounded-lg group"
+              >
+                <Link to="/cc-portfolio-maker">
+                  Build Your Portfolio
+                  <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                </Link>
               </Button>
             </div>
           </div>

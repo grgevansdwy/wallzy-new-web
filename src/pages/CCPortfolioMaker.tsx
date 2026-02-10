@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ChevronRight, RotateCcw, X, Check, Plus, Search } from "lucide-react";
+import { ChevronRight, RotateCcw, X, Check, Plus, Search, Sparkles, TrendingUp, DollarSign, CreditCard as CreditCardIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 import { studentCards, CreditCard } from "@/lib/studentCards";
+import logo from "@/assets/logo.png";
 import { commonCards } from "@/lib/commonCards";
 
 // Spending categories
@@ -568,18 +569,14 @@ export default function CCPortfolioMaker() {
       <header className="flex items-center justify-between p-4 border-b border-white/10">
         <Link
           to="/"
-          className="text-wallzy-white/80 hover:text-wallzy-white flex items-center gap-1 text-sm"
+          className="flex items-center text-primary-foreground font-black text-xl tracking-tight hover:opacity-80 transition-opacity"
         >
-          Learn More <ChevronRight className="w-4 h-4" />
+          <img src={logo} alt="Wallzy" className="h-12 w-12 -mr-4" />
+          <span>allzy</span>
         </Link>
         <h1 className="text-wallzy-white font-bold text-xl md:text-2xl">Credit Card Portfolio Builder</h1>
-        <button
-          onClick={handleReset}
-          className="text-wallzy-white/80 hover:text-wallzy-white p-2 rounded-full hover:bg-white/10 transition-colors"
-          title="Reset"
-        >
-          <RotateCcw className="w-5 h-5" />
-        </button>
+        {/* Spacer to keep title centered */}
+        <div className="w-12" />
       </header>
 
       {/* Chat Container */}
@@ -594,34 +591,181 @@ export default function CCPortfolioMaker() {
               key="welcome"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="space-y-4"
+              className="flex flex-col items-center justify-center min-h-[calc(100vh-120px)] relative"
             >
-              <ChatBubble>
-                <p className="text-lg font-medium mb-2">
-                  Hey there! I'm your Credit Card Portfolio Advisor.
-                </p>
-                <p className="text-wallzy-white/80">
-                  Let's find out how much money you're leaving on the table with
-                  your current cards, and build you an optimized student-friendly
-                  portfolio.
-                </p>
-              </ChatBubble>
-              <ChatBubble delay={0.3}>
-                <p>Ready to see your potential savings?</p>
-              </ChatBubble>
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
-                className="flex justify-center mt-6"
-              >
-                <Button
-                  onClick={handleStart}
-                  className="bg-wallzy-yellow hover:bg-wallzy-yellow/90 text-wallzy-darkBlue font-semibold px-8 py-6 text-lg rounded-full"
+              {/* Background glow effects */}
+              <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <motion.div
+                  className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-wallzy-lightBlue/10 blur-[100px]"
+                  animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <motion.div
+                  className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] rounded-full bg-wallzy-yellow/8 blur-[80px]"
+                  animate={{ scale: [1, 1.15, 1], opacity: [0.2, 0.4, 0.2] }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                />
+              </div>
+
+              {/* Floating credit card illustrations */}
+              <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                {/* Card 1 - top right */}
+                <motion.div
+                  className="absolute top-[8%] right-[5%] md:right-[10%] w-32 md:w-44 h-20 md:h-28 rounded-xl bg-gradient-to-br from-wallzy-lightBlue/40 to-wallzy-lightBlue/20 border border-white/20 shadow-lg backdrop-blur-sm"
+                  initial={{ opacity: 0, x: 50, rotate: 12 }}
+                  animate={{ opacity: 1, x: 0, rotate: 12, y: [0, -15, 0] }}
+                  transition={{ opacity: { duration: 0.8, delay: 0.2 }, y: { duration: 6, repeat: Infinity, ease: "easeInOut" } }}
                 >
-                  Let's Go!
-                </Button>
-              </motion.div>
+                  <div className="absolute top-3 left-3 w-6 md:w-8 h-6 md:h-8 rounded-full bg-white/20" />
+                  <div className="absolute bottom-3 right-3 w-10 md:w-14 h-2 md:h-3 rounded-full bg-white/25" />
+                  <div className="absolute bottom-3 left-3 w-6 md:w-8 h-2 md:h-3 rounded-full bg-white/15" />
+                </motion.div>
+
+                {/* Card 2 - top left */}
+                <motion.div
+                  className="absolute top-[12%] left-[2%] md:left-[8%] w-28 md:w-40 h-18 md:h-24 rounded-xl bg-gradient-to-br from-wallzy-yellow/50 to-wallzy-yellow/25 border border-wallzy-yellow/30 shadow-lg"
+                  initial={{ opacity: 0, x: -50, rotate: -8 }}
+                  animate={{ opacity: 1, x: 0, rotate: -8, y: [0, -12, 0] }}
+                  transition={{ opacity: { duration: 0.8, delay: 0.4 }, y: { duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 } }}
+                >
+                  <div className="absolute top-3 left-3 w-5 md:w-7 h-5 md:h-7 rounded-full bg-wallzy-darkBlue/30" />
+                  <div className="absolute bottom-2 right-3 w-8 md:w-12 h-2 rounded-full bg-wallzy-darkBlue/20" />
+                </motion.div>
+
+                {/* Card 3 - bottom left */}
+                <motion.div
+                  className="absolute bottom-[15%] left-[3%] md:left-[12%] w-24 md:w-36 h-16 md:h-22 rounded-xl bg-gradient-to-br from-white/15 to-white/5 border border-white/15 shadow-lg backdrop-blur-sm"
+                  initial={{ opacity: 0, y: 30, rotate: 6 }}
+                  animate={{ opacity: 1, y: [0, -10, 0], rotate: 6 }}
+                  transition={{ opacity: { duration: 0.8, delay: 0.6 }, y: { duration: 5, repeat: Infinity, ease: "easeInOut", delay: 2 } }}
+                >
+                  <div className="absolute top-2 left-2 w-5 h-5 rounded-full bg-white/20" />
+                </motion.div>
+
+                {/* Card 4 - bottom right */}
+                <motion.div
+                  className="absolute bottom-[18%] right-[3%] md:right-[8%] w-26 md:w-38 h-16 md:h-24 rounded-xl bg-gradient-to-br from-emerald-400/30 to-emerald-600/15 border border-emerald-400/20 shadow-lg"
+                  initial={{ opacity: 0, y: 30, rotate: -10 }}
+                  animate={{ opacity: 1, y: [0, -14, 0], rotate: -10 }}
+                  transition={{ opacity: { duration: 0.8, delay: 0.8 }, y: { duration: 6.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 } }}
+                >
+                  <div className="absolute top-2 right-2 w-4 h-4 rounded-full bg-white/15" />
+                  <div className="absolute bottom-2 left-2 w-8 h-2 rounded-full bg-white/20" />
+                </motion.div>
+
+                {/* Floating sparkle particles */}
+                {[
+                  { top: "20%", left: "20%", delay: 0, duration: 3 },
+                  { top: "30%", right: "25%", delay: 1, duration: 4 },
+                  { top: "60%", left: "15%", delay: 2, duration: 3.5 },
+                  { top: "70%", right: "18%", delay: 0.5, duration: 4.5 },
+                  { top: "45%", left: "80%", delay: 1.5, duration: 3 },
+                ].map((pos, i) => (
+                  <motion.div
+                    key={i}
+                    className="absolute w-1 h-1 bg-wallzy-yellow/60 rounded-full"
+                    style={{ top: pos.top, left: pos.left, right: (pos as { right?: string }).right }}
+                    animate={{
+                      opacity: [0, 1, 0],
+                      scale: [0, 1.5, 0],
+                    }}
+                    transition={{
+                      duration: pos.duration,
+                      repeat: Infinity,
+                      delay: pos.delay,
+                      ease: "easeInOut",
+                    }}
+                  />
+                ))}
+              </div>
+
+              {/* Main content */}
+              <div className="relative z-10 text-center max-w-xl mx-auto px-4">
+                {/* Icon badge */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ type: "spring", stiffness: 200, delay: 0.1 }}
+                  className="inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-wallzy-yellow to-wallzy-yellow/80 shadow-lg shadow-wallzy-yellow/25 mb-6"
+                >
+                  <CreditCardIcon className="w-8 h-8 md:w-10 md:h-10 text-wallzy-darkBlue" />
+                </motion.div>
+
+                {/* Title */}
+                <motion.h2
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-4 leading-tight"
+                >
+                  Maximize Your{" "}
+                  <span className="text-wallzy-yellow">Rewards</span>
+                </motion.h2>
+
+                {/* Subtitle */}
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.35 }}
+                  className="text-base md:text-lg text-white/70 mb-8 max-w-md mx-auto"
+                >
+                  Find out how much you're leaving on the table and get a
+                  personalized student-friendly card portfolio.
+                </motion.p>
+
+                {/* Feature pills */}
+                <motion.div
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                  className="flex flex-wrap justify-center gap-3 mb-10"
+                >
+                  {[
+                    { icon: TrendingUp, label: "Savings Analysis" },
+                    { icon: Sparkles, label: "Smart Recommendations" },
+                    { icon: DollarSign, label: "No Annual Fees" },
+                  ].map(({ icon: Icon, label }) => (
+                    <span
+                      key={label}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 border border-white/10 text-white/80 text-sm"
+                    >
+                      <Icon className="w-3.5 h-3.5 text-wallzy-yellow" />
+                      {label}
+                    </span>
+                  ))}
+                </motion.div>
+
+                {/* CTA Button */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.65 }}
+                >
+                  <Button
+                    onClick={handleStart}
+                    className="bg-wallzy-yellow hover:bg-wallzy-yellow/90 text-wallzy-darkBlue font-bold px-10 py-6 text-lg rounded-full shadow-lg shadow-wallzy-yellow/20 hover:shadow-wallzy-yellow/30 transition-all hover:scale-105 group"
+                  >
+                    Let's Go!
+                    <motion.span
+                      className="ml-2 inline-block"
+                      animate={{ x: [0, 4, 0] }}
+                      transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </motion.span>
+                  </Button>
+                </motion.div>
+
+                {/* Trust line */}
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.9 }}
+                  className="text-xs text-white/40 mt-6"
+                >
+                  Takes about 2 minutes — no sign-up required
+                </motion.p>
+              </div>
             </motion.div>
           )}
 
