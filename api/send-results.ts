@@ -3,82 +3,74 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-interface RecommendedCard {
+interface CardAction {
   name: string;
-  bestFor: string;
-  special: string;
+  reason: string;
+  anv?: number;
+  downgrade?: string;
+  upgradeFrom?: string;
 }
 
-interface BreakdownItem {
-  category: string;
-  currentRate: number;
-  optimalRate: number;
-  monthlySaving: number;
+interface Strategy {
+  apply: CardAction[];
+  keep: CardAction[];
+  remove: CardAction[];
+  upgrade: CardAction[];
+  improvement: number;
 }
 
 interface ResultsPayload {
   email: string;
-  annualLoss: number;
-  recommendedCards: RecommendedCard[];
-  breakdown: BreakdownItem[];
-  explanation: string;
+  strategy: Strategy;
+}
+
+function renderCardRows(cards: CardAction[], label: string, color: string): string {
+  if (!cards || cards.length === 0) return "";
+  return `
+    <tr>
+      <td style="padding-bottom: 8px;">
+        <h3 style="color: ${color}; font-size: 15px; margin: 0 0 8px 0;">${label}</h3>
+        <table width="100%" cellpadding="0" cellspacing="0">
+          ${cards
+            .map(
+              (card) => `
+            <tr>
+              <td style="padding: 12px; background: #f8fafc; border-radius: 8px; margin-bottom: 6px; border-left: 3px solid ${color};">
+                <div style="font-weight: 600; color: #00438A; font-size: 15px;">${card.name}</div>
+                <div style="color: #64748b; font-size: 13px; margin-top: 4px;">${card.reason}</div>
+                ${card.anv ? `<div style="color: #FFC402; font-size: 13px; font-weight: 600; margin-top: 4px;">+$${card.anv.toFixed(0)}/yr net value</div>` : ""}
+                ${card.downgrade ? `<div style="color: #94a3b8; font-size: 12px; margin-top: 4px;">Downgrade to: ${card.downgrade}</div>` : ""}
+                ${card.upgradeFrom ? `<div style="color: #94a3b8; font-size: 12px; margin-top: 4px;">Upgrade from: ${card.upgradeFrom}</div>` : ""}
+              </td>
+            </tr>
+            <tr><td style="height: 6px;"></td></tr>
+          `
+            )
+            .join("")}
+        </table>
+      </td>
+    </tr>
+    <tr><td style="height: 16px;"></td></tr>
+  `;
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // Only allow POST
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
   try {
-    const { email, annualLoss, recommendedCards, breakdown, explanation } =
-      req.body as ResultsPayload;
+    const { email, strategy } = req.body as ResultsPayload;
 
-    // Validate email
     if (!email || !email.includes("@")) {
       return res.status(400).json({ error: "Invalid email address" });
     }
 
-    // Build the email HTML
-    const cardsHtml = recommendedCards
-      .map(
-        (card, i) => `
-        <tr>
-          <td style="padding: 16px; background: #f8fafc; border-radius: 8px; margin-bottom: 8px;">
-            <div style="display: flex; align-items: flex-start; gap: 12px;">
-              <div style="width: 28px; height: 28px; background: #FFC402; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #00438A; font-weight: bold; font-size: 14px;">
-                ${i + 1}
-              </div>
-              <div>
-                <div style="font-weight: 600; color: #00438A; font-size: 16px;">${card.name}</div>
-                <div style="color: #5493D5; font-size: 14px;">${card.bestFor}</div>
-                <div style="color: #64748b; font-size: 13px; margin-top: 4px;">${card.special}</div>
-              </div>
-            </div>
-          </td>
-        </tr>
-        <tr><td style="height: 8px;"></td></tr>
-      `
-      )
-      .join("");
+    if (!strategy) {
+      return res.status(400).json({ error: "Missing strategy data" });
+    }
 
-    const breakdownHtml = breakdown
-      .map(
-        (item) => `
-        <tr>
-          <td style="padding: 8px 0; border-bottom: 1px solid #e2e8f0;">
-            <span style="color: #64748b;">${item.category}</span>
-          </td>
-          <td style="padding: 8px 0; border-bottom: 1px solid #e2e8f0; text-align: right;">
-            <span style="color: #94a3b8;">${item.currentRate.toFixed(0)}%</span>
-            <span style="color: #cbd5e1; margin: 0 4px;">→</span>
-            <span style="color: #5493D5; font-weight: 500;">${item.optimalRate.toFixed(0)}%</span>
-            <span style="color: #FFC402; font-weight: 600; margin-left: 8px;">+$${item.monthlySaving.toFixed(0)}/mo</span>
-          </td>
-        </tr>
-      `
-      )
-      .join("");
+    const annualImprovement = strategy.improvement ?? 0;
 
     const htmlContent = `
 <!DOCTYPE html>
@@ -86,7 +78,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Credit Card Portfolio Results</title>
+  <title>Your Credit Card Portfolio Strategy</title>
 </head>
 <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f1f5f9;">
   <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: 0 auto; padding: 20px;">
@@ -96,7 +88,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         <table width="100%" cellpadding="0" cellspacing="0" style="background: #00438A; border-radius: 12px 12px 0 0; padding: 32px; text-align: center;">
           <tr>
             <td>
-              <h1 style="color: #ffffff; margin: 0 0 8px 0; font-size: 24px;">Your Portfolio Results</h1>
+              <h1 style="color: #ffffff; margin: 0 0 8px 0; font-size: 24px;">Your Portfolio Strategy</h1>
               <p style="color: #5493D5; margin: 0; font-size: 14px;">from Wallzy Wallet</p>
             </td>
           </tr>
@@ -104,49 +96,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
         <!-- Main Content -->
         <table width="100%" cellpadding="0" cellspacing="0" style="background: #ffffff; padding: 32px;">
-          <!-- Annual Loss Highlight -->
+          <!-- Annual Improvement -->
           <tr>
             <td style="text-align: center; padding-bottom: 32px;">
-              <p style="color: #64748b; margin: 0 0 8px 0; font-size: 14px;">You're leaving on the table annually:</p>
-              <p style="color: #FFC402; margin: 0; font-size: 48px; font-weight: 700;">$${annualLoss.toFixed(0)}</p>
-              <p style="color: #94a3b8; margin: 8px 0 0 0; font-size: 13px;">That's $${(annualLoss / 12).toFixed(0)}/month in lost rewards</p>
+              <p style="color: #64748b; margin: 0 0 8px 0; font-size: 14px;">Your potential annual rewards improvement:</p>
+              <p style="color: #FFC402; margin: 0; font-size: 48px; font-weight: 700;">+$${annualImprovement.toFixed(0)}</p>
+              <p style="color: #94a3b8; margin: 8px 0 0 0; font-size: 13px;">That's $${(annualImprovement / 12).toFixed(0)}/month more in rewards</p>
             </td>
           </tr>
 
-          <!-- Breakdown -->
-          ${
-            breakdown.length > 0
-              ? `
-          <tr>
-            <td style="padding-bottom: 24px;">
-              <h2 style="color: #00438A; font-size: 18px; margin: 0 0 16px 0;">Savings Breakdown</h2>
-              <table width="100%" cellpadding="0" cellspacing="0">
-                ${breakdownHtml}
-              </table>
-            </td>
-          </tr>
-          `
-              : ""
-          }
-
-          <!-- Recommended Cards -->
-          <tr>
-            <td style="padding-bottom: 24px;">
-              <h2 style="color: #00438A; font-size: 18px; margin: 0 0 16px 0;">Your Recommended Portfolio</h2>
-              <table width="100%" cellpadding="0" cellspacing="0">
-                ${cardsHtml}
-              </table>
-            </td>
-          </tr>
-
-          <!-- Explanation -->
-          <tr>
-            <td style="background: #f8fafc; border-radius: 8px; padding: 16px;">
-              <p style="color: #475569; font-size: 14px; line-height: 1.6; margin: 0;">
-                ${explanation.replace(/\*\*(.*?)\*\*/g, "<strong style='color: #00438A;'>$1</strong>")}
-              </p>
-            </td>
-          </tr>
+          ${renderCardRows(strategy.apply, "Apply For", "#10b981")}
+          ${renderCardRows(strategy.upgrade, "Upgrade", "#3b82f6")}
+          ${renderCardRows(strategy.keep, "Keep", "#00438A")}
+          ${renderCardRows(strategy.remove, "Remove / Downgrade", "#ef4444")}
         </table>
 
         <!-- Footer -->
@@ -172,22 +134,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 </html>
     `;
 
-    // Send the email
     const { data, error } = await resend.emails.send({
       from: "Wallzy Wallet <no-reply@wallzywallet.com>",
       to: [email],
-      subject: `Your Optimized Credit Card Portfolio - Save $${annualLoss.toFixed(0)}/year`,
+      subject: `Your Optimized Credit Card Portfolio — +$${annualImprovement.toFixed(0)}/year`,
       html: htmlContent,
     });
 
     if (error) {
-      console.error("Resend error:", error);
-      return res.status(500).json({ error: "Failed to send email" });
+      console.error("Resend error:", JSON.stringify(error));
+      return res.status(500).json({ error: "Failed to send email", detail: error });
     }
 
     return res.status(200).json({ success: true, id: data?.id });
-  } catch (error) {
-    console.error("Server error:", error);
-    return res.status(500).json({ error: "Internal server error" });
+  } catch (err) {
+    console.error("Server error:", err);
+    return res.status(500).json({ error: "Internal server error", detail: String(err) });
   }
 }
