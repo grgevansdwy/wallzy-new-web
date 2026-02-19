@@ -66,7 +66,7 @@ const HeroSection = () => {
                 variant="outline"
                 className="border-2 border-white text-white bg-transparent hover:bg-white/15 font-semibold px-8 md:px-6 py-6 md:py-4 text-lg md:text-base rounded-lg group"
               >
-                <Link to="/cc-portfolio-maker">
+                <Link to="/byw">
                   Build Your Portfolio
                   <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                 </Link>

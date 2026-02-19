@@ -1,0 +1,868 @@
+[
+  {
+    "id": "amex_everyday",
+    "name": "Amex Blue Cash Everyday Card",
+    "brand": "American Express",
+    "family_id": null,
+    "min_score": 670,
+    "annual_fee": 0,
+    "subject_524": null,
+    "rewards": {
+      "base": 0.01,
+      "grocery": 0.03,
+      "gas": 0.03,
+      "online_retail": 0.03
+    },
+    "downgrade_to": null,
+    "metadata": {
+      "foreign_fee": true,
+      "rewards_type": "Cash",
+      "network": "Amex",
+      "bonus_value": 200.0,
+      "bonus_spending": 2000.0,
+      "bonus_time": 6.0,
+      "comment_bonus": null,
+      "comment_general": null
+    }
+  },
+  {
+    "id": "amex_preferred",
+    "name": "Amex Blue Cash Preferred Card",
+    "brand": "American Express",
+    "family_id": null,
+    "min_score": 670,
+    "annual_fee": 95,
+    "subject_524": null,
+    "rewards": {
+      "base": 0.01,
+      "grocery": 0.06,
+      "gas": 0.03,
+      "transit": 0.03,
+      "streaming": 0.06
+    },
+    "downgrade_to": null,
+    "metadata": {
+      "foreign_fee": true,
+      "rewards_type": "Cash",
+      "network": "Amex",
+      "bonus_value": 250.0,
+      "bonus_spending": 3000.0,
+      "bonus_time": 6.0,
+      "comment_bonus": null,
+      "comment_general": null
+    }
+  },
+  {
+    "id": "bofa_custom",
+    "name": "Bofa Customized Cash Rewards",
+    "brand": "Bank of America",
+    "family_id": null,
+    "min_score": 670,
+    "annual_fee": 0,
+    "subject_524": null,
+    "rewards": {
+      "base": 0.01,
+      "grocery": 0.02,
+      "wholesale": 0.02,
+      "custom": 0.03
+    },
+    "customCategory_choices": {
+      "dining": "Dining",
+      "online_retail": "Online Shopping",
+      "gas": "Gas Stations",
+      "travel": "Travel",
+      "drugstores": "Drugstores",
+      "homeImprovement": "Home Improvement / Furnishing Stores"
+    },
+    "downgrade_to": null,
+    "metadata": {
+      "foreign_fee": true,
+      "rewards_type": "Cash",
+      "network": "Visa",
+      "bonus_value": 200.0,
+      "bonus_spending": 1000.0,
+      "bonus_time": 3.0,
+      "comment_bonus": null,
+      "comment_general": "This card allows you to choose one specific category for 3% cash back."
+    }
+  },
+  {
+    "id": "bofa_travelReward",
+    "name": "Bofa Travel Rewards",
+    "brand": "Bank of America",
+    "family_id": null,
+    "min_score": 670,
+    "annual_fee": 0,
+    "subject_524": null,
+    "rewards": {
+      "base": 0.015
+    },
+    "downgrade_to": null,
+    "metadata": {
+      "foreign_fee": false,
+      "rewards_type": "Point",
+      "network": "Visa",
+      "bonus_value": 250.0,
+      "bonus_spending": 1000.0,
+      "bonus_time": 3.0,
+      "comment_bonus": null,
+      "comment_general": null
+    }
+  },
+  {
+    "id": "bofa_unlimitedStudents",
+    "name": "Bofa Unlimited Cash Rewards",
+    "brand": "Bank of America",
+    "family_id": null,
+    "min_score": 670,
+    "annual_fee": 0,
+    "subject_524": null,
+    "rewards": {
+      "base": 0.015
+    },
+    "downgrade_to": null,
+    "metadata": {
+      "foreign_fee": true,
+      "rewards_type": "Cash",
+      "network": "Visa",
+      "bonus_value": 200.0,
+      "bonus_spending": 1000.0,
+      "bonus_time": 3.0,
+      "comment_bonus": null,
+      "comment_general": null
+    }
+  },
+  {
+    "id": "capitalOne_savorExcellent",
+    "name": "Capital One Savor Rewards for Excellent Credit",
+    "brand": "Capital One",
+    "family_id": "capital-one-savor",
+    "min_score": 700,
+    "annual_fee": 0,
+    "subject_524": false,
+    "rewards": {
+      "entertainment_capitalOne": 0.08,
+      "hotel_capitalOne": 0.05,
+      "rentalCar_capitalOne": 0.05,
+      "dining": 0.03,
+      "entertainment": 0.03,
+      "streaming": 0.03,
+      "grocery": 0.03,
+      "base": 0.01
+    },
+    "downgrade_to": "capitalOne_savorFair",
+    "metadata": {
+      "foreign_fee": false,
+      "rewards_type": "Cash",
+      "network": "Mastercard",
+      "bonus_value": 200.0,
+      "bonus_spending": 500.0,
+      "bonus_time": 3.0,
+      "comment_general": "This card is the premium version of the Savor line. If you no longer wish to pay the $95 fee, it typically downgrades to the SavorOne."
+    }
+  },
+  {
+    "id": "capitalOne_savorFair",
+    "name": "Capital One Savor Rewards for Fair Credit",
+    "brand": "Capital One",
+    "family_id": "capital-one-savor",
+    "min_score": 580,
+    "annual_fee": 39,
+    "subject_524": false,
+    "rewards": {
+      "entertainment_capitalOne": 0.08,
+      "hotel_capitalOne": 0.05,
+      "rentalCar_capitalOne": 0.05,
+      "dining": 0.03,
+      "entertainment": 0.03,
+      "streaming": 0.03,
+      "grocery": 0.03,
+      "base": 0.01
+    },
+    "downgrade_to": null,
+    "metadata": {
+      "foreign_fee": false,
+      "rewards_type": "Cash",
+      "network": "Mastercard",
+      "bonus_value": null,
+      "bonus_spending": null,
+      "bonus_time": null,
+      "comment_general": "The no-annual-fee version of the Savor. In cases where a direct Savor-to-SavorOne downgrade isn't offered, the Quicksilver is the alternative path."
+    }
+  },
+  {
+    "id": "capitalOne_quicksilverOne",
+    "name": "Capital One QuicksilverOne Rewards",
+    "brand": "Capital One",
+    "family_id": "capital-one-quicksilver",
+    "min_score": 580,
+    "annual_fee": 39,
+    "subject_524": false,
+    "rewards": {
+      "base": 0.015
+    },
+    "downgrade_to": "capitalOne_quicksilver",
+    "metadata": {
+      "foreign_fee": false,
+      "rewards_type": "Cash",
+      "network": "Mastercard",
+      "bonus_value": null,
+      "bonus_spending": null,
+      "bonus_time": null,
+      "comment_general": "An entry-fee card for those building credit. Once credit improves, it is commonly downgraded to the no-fee Quicksilver."
+    }
+  },
+  {
+    "id": "capitalOne_quicksilver",
+    "name": "Capital One Quicksilver Rewards",
+    "brand": "Capital One",
+    "family_id": "capital-one-quicksilver",
+    "min_score": 700,
+    "annual_fee": 0,
+    "subject_524": false,
+    "rewards": {
+      "base": 0.015
+    },
+    "downgrade_to": null,
+    "metadata": {
+      "foreign_fee": false,
+      "rewards_type": "Cash",
+      "network": "Mastercard",
+      "bonus_value": 200.0,
+      "bonus_spending": 500.0,
+      "bonus_time": 3.0,
+      "comment_general": "It offers a flat 1.5% cash back with no annual fee."
+    }
+  },
+  {
+    "id": "capitalOne_ventureX",
+    "name": "Capital One Venture X Rewards",
+    "brand": "Capital One",
+    "family_id": null,
+    "min_score": 740,
+    "annual_fee": 395,
+    "subject_524": null,
+    "rewards": {
+      "base": 0.02,
+      "rentalCar_capitalOne": 0.1,
+      "hotel_capitalOne": 0.1,
+      "flights_capitalOne": 0.05,
+      "vacationRental_capitalOne": 0.05
+    },
+    "downgrade_to": "capitalOne_venture",
+    "metadata": {
+      "foreign_fee": false,
+      "rewards_type": "Point",
+      "network": "Visa",
+      "bonus_value": 750.0,
+      "bonus_spending": 4000.0,
+      "bonus_time": 3.0,
+      "comment_bonus": null,
+      "comment_general": "This card provides a $300 annual credit for Capital One Travel bookings, a 10,000-mile anniversary bonus (valued at $100) every year, and up to $120 in credit for Global Entry or TSA PreCheck."
+    }
+  },
+  {
+    "id": "capitalOne_venture",
+    "name": "Capital One Venture Rewards",
+    "brand": "Capital One",
+    "family_id": "capital-one-venture",
+    "min_score": 700,
+    "annual_fee": 95,
+    "subject_524": false,
+    "rewards": {
+      "base": 0.02,
+      "travel_capitalOne": 0.05
+    },
+    "downgrade_to": "capitalOne_ventureOne",
+    "metadata": {
+      "foreign_fee": false,
+      "rewards_type": "Miles",
+      "network": "Visa",
+      "bonus_value": 750.0,
+      "bonus_spending": 4000.0,
+      "bonus_time": 3.0,
+      "comment_bonus": "Usually offers 75,000 miles after spending $4,000 in the first 3 months.",
+      "comment_general": "Earn unlimited 2X miles on every purchase, every day. Points are worth 5X for hotel/rental cars through Capital One Travel."
+    }
+  },
+  {
+    "id": "capitalOne_ventureOne",
+    "name": "Capital One VentureOne Rewards",
+    "brand": "Capital One",
+    "family_id": null,
+    "min_score": 670,
+    "annual_fee": 0,
+    "subject_524": null,
+    "rewards": {
+      "base": 0.0125,
+      "travel_capitalOne": 0.05
+    },
+    "downgrade_to": null,
+    "metadata": {
+      "foreign_fee": false,
+      "rewards_type": "Miles",
+      "network": "Mastercard",
+      "bonus_value": 200.0,
+      "bonus_spending": 500.0,
+      "bonus_time": 3.0,
+      "comment_bonus": null,
+      "comment_general": "Points are worth 5 times more for hotel/rental cars through Capital One Travel."
+    }
+  },
+  {
+    "id": "chase_freedomFlex",
+    "name": "Chase Freedom Flex®",
+    "brand": "Chase",
+    "family_id": "chase-freedom",
+    "min_score": 670,
+    "annual_fee": 0,
+    "subject_524": true,
+    "rewards": {
+      "base": 0.01,
+      "rotating_categories": 0.05,
+      "dining": 0.03,
+      "drugstores": 0.03,
+      "travel_chase": 0.05
+    },
+    "rotatingCategory": {
+      "dining": "Dining",
+      "Norwegian Cruise Line": "Norwegian Cruise Line",
+      "American Heart Association": "American Heart Association"
+    },
+    "downgrade_to": null,
+    "metadata": {
+      "foreign_fee": true,
+      "rewards_type": "Cash/Points",
+      "network": "Mastercard",
+      "bonus_value": 200.0,
+      "bonus_spending": 500.0,
+      "comment_general": "You earn 5% cash back on up to $1,500 in combined purchases in rotating categories each quarter (e.g., Grocery Stores, Gas Stations, Amazon)."
+    }
+  },
+  {
+    "id": "chase_freedomRise",
+    "name": "Chase Freedom Rise Card",
+    "brand": "Chase",
+    "family_id": null,
+    "min_score": 500,
+    "annual_fee": 0,
+    "subject_524": true,
+    "rewards": {
+      "base": 0.015
+    },
+    "downgrade_to": null,
+    "metadata": {
+      "foreign_fee": true,
+      "rewards_type": "Cash",
+      "network": "Visa",
+      "bonus_value": null,
+      "bonus_spending": null,
+      "bonus_time": null,
+      "comment_bonus": "You receive a one-time $25 statement credit after registering for autopay within the first three months.",
+      "comment_general": null
+    }
+  },
+  {
+    "id": "chase_freedomUnlimited",
+    "name": "Chase Freedom Unlimited®",
+    "brand": "Chase",
+    "family_id": "chase-freedom",
+    "min_score": 670,
+    "annual_fee": 0,
+    "subject_524": true,
+    "rewards": {
+      "base": 0.015,
+      "dining": 0.03,
+      "drugstores": 0.03,
+      "travel_chase": 0.05
+    },
+    "downgrade_to": null,
+    "metadata": {
+      "foreign_fee": true,
+      "rewards_type": "Cash/Points",
+      "network": "Visa",
+      "bonus_value": 200.0,
+      "bonus_spending": 500.0,
+      "comment_general": "The most common flat-rate card in the Chase ecosystem. Often the target for downgrades from the Sapphire Preferred or Reserve."
+    }
+  },
+  {
+    "id": "chase_amazonPrime",
+    "name": "Prime Visa",
+    "brand": "Chase",
+    "family_id": "chase-amazon",
+    "min_score": 670,
+    "annual_fee": 0,
+    "subject_524": true,
+    "rewards": {
+      "amazon": 0.05,
+      "chase_travel": 0.05,
+      "gas_stations": 0.02,
+      "restaurants": 0.02,
+      "transit": 0.02,
+      "base": 0.01
+    },
+    "downgrade_to": null,
+    "metadata": {
+      "foreign_fee": false,
+      "rewards_type": "Cash Back / Points",
+      "network": "Visa",
+      "bonus_value": 150.0,
+      "comment_bonus": "As an Amazon Prime member, get an instant $150 Amazon Gift Card upon approval for the card.",
+      "comment_general": "Requires an active Amazon Prime membership. Rewards are earned as points that can be used at Amazon checkout or as cash back."
+    }
+  },
+  {
+    "id": "chase_sapphirePreferred",
+    "name": "Chase Sapphire Preferred Card",
+    "brand": "Chase",
+    "family_id": null,
+    "min_score": 740,
+    "annual_fee": 95,
+    "subject_524": null,
+    "rewards": {
+      "base": 0.02,
+      "dining": 0.03,
+      "travel_chase": 0.08,
+      "flight": 0.04,
+      "hotel": 0.04
+    },
+    "downgrade_to": {
+      "name1": "chase_freedomUnlimited",
+      "name2": "chase_freedomFlex",
+      "name3": "chase_freedomRise"
+    },
+    "metadata": {
+      "foreign_fee": false,
+      "rewards_type": "Point",
+      "network": "Visa",
+      "bonus_value": 750.0,
+      "bonus_spending": 5000.0,
+      "bonus_time": 3.0,
+      "comment_bonus": null,
+      "comment_general": "This card is a travel card, earning 5x points on travel booked through Chase, 3x points on dining and online groceries, and 2x points on all other travel, plus it includes a $50 annual hotel credit."
+    }
+  },
+  {
+    "id": "citi_doubleCash",
+    "name": "Citi Double Cash Card",
+    "brand": "Citi",
+    "family_id": "citi-thankyou",
+    "min_score": 700,
+    "annual_fee": 0,
+    "subject_524": false,
+    "rewards": {
+      "base": 0.02
+    },
+    "downgrade_to": null,
+    "metadata": {
+      "foreign_fee": true,
+      "rewards_type": "Point",
+      "network": "Mastercard",
+      "bonus_value": 200.0,
+      "bonus_spending": 1500.0,
+      "bonus_time": 6.0,
+      "comment_general": "Earns 1% when you buy and 1% as you pay, for a total of 2% back on all purchases."
+    }
+  },
+  {
+    "id": "citi_custom",
+    "name": "Citi Custom Cash Card",
+    "brand": "Citi",
+    "family_id": "citi-thankyou",
+    "min_score": 700,
+    "annual_fee": 0,
+    "subject_524": false,
+    "rewards": {
+      "top_category": 0.05,
+      "base": 0.01
+    },
+    "topCategory_choices": {
+      "dining": "Dining",
+      "grocery": "Grocery Stores",
+      "entertainment": "Entertainment",
+      "gas": "Gas Stations",
+      "streaming": "Streaming Services",
+      "travel": "Travel",
+      "transit": "Transit",
+      "drugstores": "Drugstores",
+      "homeImprovement": "Home Improvement / Furnishing Stores",
+      "fitness": "Fitness Clubs / Gyms"
+    },
+    "downgrade_to": null,
+    "metadata": {
+      "foreign_fee": true,
+      "rewards_type": "Point",
+      "network": "Mastercard",
+      "bonus_value": 200.0,
+      "bonus_spending": 1500.0,
+      "bonus_time": 6.0,
+      "comment_general": "Automatically earns 5% back on your top eligible spend category (up to $500 spent per billing cycle)."
+    }
+  },
+  {
+    "id": "wellsFargo_reflect",
+    "name": "Wells Fargo Reflect Card",
+    "brand": "Wells Fargo",
+    "family_id": "wells-fargo-reflect",
+    "min_score": 670,
+    "annual_fee": 0,
+    "subject_524": false,
+    "rewards": {
+      "base": 0.0
+    },
+    "downgrade_to": null,
+    "metadata": {
+      "foreign_fee": true,
+      "rewards_type": "Cash",
+      "network": "Visa",
+      "bonus_value": null,
+      "comment_general": "Strictly an APR/Balance Transfer card; does not offer spending rewards."
+    }
+  },
+  {
+    "id": "wellsFargo_activeCashCard",
+    "name": "Wells Fargo Active Cash Card",
+    "brand": "Wells Fargo",
+    "family_id": "wells-fargo-active",
+    "min_score": 700,
+    "annual_fee": 0,
+    "subject_524": false,
+    "rewards": {
+      "base": 0.02
+    },
+    "downgrade_to": null,
+    "metadata": {
+      "foreign_fee": true,
+      "rewards_type": "Cash",
+      "network": "Visa",
+      "bonus_value": 200.0,
+      "bonus_spending": 500.0,
+      "bonus_time": 3.0,
+      "comment_general": "Unlimited 2% cash rewards on all purchases."
+    }
+  },
+  {
+    "id": "amex_deltaBlue",
+    "name": "Amex Delta SkyMiles Blue",
+    "brand": "American Express",
+    "family_id": "amex-delta",
+    "min_score": 670,
+    "annual_fee": 0,
+    "subject_524": false,
+    "rewards": {
+      "travel_delta": 0.02,
+      "dining": 0.02,
+      "base": 0.01
+    },
+    "downgrade_to": null,
+    "metadata": {
+      "foreign_fee": false,
+      "rewards_type": "Point",
+      "network": "Amex",
+      "bonus_value": 100.0,
+      "bonus_spending": 1000.0,
+      "bonus_time": 6.0,
+      "comment_general": "Standard no-fee downgrade target for Delta Gold or Platinum cards."
+    }
+  },
+  {
+    "id": "amex_gold",
+    "name": "American Express Gold Card",
+    "brand": "American Express",
+    "family_id": "amex-membership-rewards",
+    "min_score": 720,
+    "annual_fee": 325,
+    "subject_524": false,
+    "rewards": {
+      "restaurants": 0.04,
+      "groceries": 0.04,
+      "flight_amex": 0.03,
+      "hotel_amex": 0.02,
+      "base": 0.01
+    },
+    "downgrade_to": "amex_green",
+    "metadata": {
+      "foreign_fee": false,
+      "rewards_type": "Point",
+      "network": "Amex",
+      "bonus_value": 1000.0,
+      "bonus_spending": 6000.0,
+      "bonus_time": 6.0,
+      "comment_general": "4X points at restaurants and U.S. supermarkets (up to $25k/year)."
+    }
+  },
+  {
+    "id": "amex_platinum",
+    "name": "The Platinum Card® from American Express",
+    "brand": "American Express",
+    "family_id": "amex-membership-rewards",
+    "min_score": 740,
+    "annual_fee": 695,
+    "subject_524": false,
+    "rewards": {
+      "flight_amex": 0.05,
+      "hotel_amex": 0.05,
+      "base": 0.01
+    },
+    "downgrade_to": "amex_gold",
+    "metadata": {
+      "foreign_fee": false,
+      "rewards_type": "Point",
+      "network": "Amex",
+      "bonus_value": 1750.0,
+      "bonus_spending": 8000.0,
+      "bonus_time": 6.0,
+      "comment_general": "Premium travel card with extensive lounge access and credits."
+    }
+  },
+  {
+    "id": "apple_card",
+    "name": "Apple Card",
+    "brand": "Goldman Sachs",
+    "family_id": "apple",
+    "min_score": 660,
+    "annual_fee": 0,
+    "subject_524": false,
+    "rewards": {
+      "Apple_purchases": 0.03,
+      "Select_merchants": 0.03,
+      "apple_pay": 0.02,
+      "base": 0.01
+    },
+    "downgrade_to": null,
+    "metadata": {
+      "foreign_fee": false,
+      "rewards_type": "Cash",
+      "network": "Mastercard",
+      "comment_general": "Rewards are issued daily as 'Daily Cash' into Apple Cash or Savings."
+    }
+  },
+  {
+    "id": "discoverIt_studentCashBack",
+    "name": "Discover it Student Cashback",
+    "brand": "Discover",
+    "family_id": "discover-it",
+    "min_score": 630,
+    "annual_fee": 0,
+    "subject_524": false,
+    "rewards": {
+      "rotating_categories": 0.05,
+      "base": 0.01
+    },
+    "rotatingCategory": {
+      "grocery": "Grocery Stores",
+      "streaming": "Streaming Services",
+      "wholesale": "Wholesale Clubs"
+    },
+    "downgrade_to": null,
+    "metadata": {
+      "foreign_fee": false,
+      "rewards_type": "Cash",
+      "network": "Discover",
+      "comment_general": "5% back on quarterly rotating categories up to $1,500 in purchases."
+    }
+  },
+  {
+    "id": "discoverIt_studentChrome",
+    "name": "Discover it Student Chrome",
+    "brand": "Discover",
+    "family_id": "discover-it",
+    "min_score": 630,
+    "annual_fee": 0,
+    "subject_524": false,
+    "rewards": {
+      "gas_stations": 0.02,
+      "dining": 0.02,
+      "base": 0.01
+    },
+    "downgrade_to": null,
+    "metadata": {
+      "foreign_fee": false,
+      "rewards_type": "Cash",
+      "network": "Discover",
+      "comment_general": "2% back at gas stations and restaurants on up to $1,000 in combined purchases each quarter."
+    }
+  },
+  {
+    "id": "discoverIt_Miles",
+    "name": "Discover it Miles",
+    "brand": "Discover",
+    "family_id": "discover-it",
+    "min_score": 670,
+    "annual_fee": 0,
+    "subject_524": false,
+    "rewards": {
+      "base": 0.015
+    },
+    "downgrade_to": null,
+    "metadata": {
+      "foreign_fee": false,
+      "rewards_type": "Miles",
+      "network": "Discover",
+      "comment_general": "Unlimited 1.5x miles on all purchases."
+    }
+  },
+  {
+    "id": "paypal_card",
+    "name": "PayPal Cashback Mastercard",
+    "brand": "Synchrony",
+    "family_id": "paypal",
+    "min_score": 670,
+    "annual_fee": 0,
+    "subject_524": false,
+    "rewards": {
+      "paypal_purchases": 0.03,
+      "base": 0.015
+    },
+    "downgrade_to": null,
+    "metadata": {
+      "foreign_fee": true,
+      "rewards_type": "Cash",
+      "network": "Mastercard",
+      "comment_general": "Earn 3% back when using PayPal at checkout."
+    }
+  },
+  {
+    "id": "usBank_altitudeConnect",
+    "name": "U.S. Bank Altitude Connect Visa Signature Card",
+    "brand": "U.S. Bank",
+    "family_id": "us-bank-altitude",
+    "min_score": 700,
+    "annual_fee": 0,
+    "subject_524": false,
+    "rewards": {
+      "travel_USBank": 0.05,
+      "travel": 0.04,
+      "gas_stations": 0.04,
+      "grocery": 0.02,
+      "dining": 0.02,
+      "streaming": 0.02,
+      "base": 0.01
+    },
+    "downgrade_to": "usBank_altitudeGo",
+    "metadata": {
+      "foreign_fee": false,
+      "rewards_type": "Point",
+      "network": "Visa",
+      "bonus_value": 200.0,
+      "bonus_spending": 1000.0,
+      "bonus_time": 3.0
+    }
+  },
+  {
+    "id": "usBank_altitudeGo",
+    "name": "U.S. Bank Altitude Go Visa Signature® Card",
+    "brand": "U.S. Bank",
+    "family_id": "us-bank-altitude",
+    "min_score": 700,
+    "annual_fee": 0,
+    "subject_524": false,
+    "rewards": {
+      "dining": 0.04,
+      "grocery": 0.02,
+      "gas_stations": 0.02,
+      "streaming": 0.02,
+      "base": 0.01
+    },
+    "downgrade_to": null,
+    "metadata": {
+      "foreign_fee": false,
+      "rewards_type": "Point",
+      "network": "Visa",
+      "bonus_value": 200.0,
+      "bonus_spending": 1000.0,
+      "bonus_time": 3.0
+    }
+  },
+  {
+    "id": "usBank_smartly",
+    "name": "U.S. Bank Smartly Visa Signature Card",
+    "brand": "U.S. Bank",
+    "family_id": "us-bank-smartly",
+    "min_score": 720,
+    "annual_fee": 0,
+    "subject_524": false,
+    "rewards": {
+      "base": 0.02
+    },
+    "downgrade_to": null,
+    "metadata": {
+      "foreign_fee": true,
+      "rewards_type": "Point",
+      "network": "Visa",
+      "comment_general": "Base 2% can be boosted up to 4% depending on U.S. Bank asset balances."
+    }
+  },
+  {
+    "id": "opensky_plus_secured",
+    "name": "OpenSky® Plus Secured Visa®",
+    "brand": "OpenSky",
+    "family_id": "opensky-secured",
+    "min_score": 0,
+    "annual_fee": 0,
+    "subject_524": false,
+    "rewards": {
+      "base": 0.0
+    },
+    "downgrade_to": null,
+    "metadata": {
+      "foreign_fee": true,
+      "rewards_type": "None",
+      "network": "Visa",
+      "bonus_value": 0,
+      "bonus_spending": 0,
+      "bonus_time": 0,
+      "comment_bonus": "No welcome bonus available.",
+      "comment_general": "No credit check required for application. Best for users with very poor or no credit history."
+    }
+  },
+  {
+    "id": "discover_it_secured",
+    "name": "Discover it® Secured",
+    "brand": "Discover",
+    "family_id": "discover-it",
+    "min_score": 0,
+    "annual_fee": 0,
+    "subject_524": false,
+    "rewards": {
+      "base": 0.01,
+      "gas_stations": 0.02,
+      "restaurants": 0.02
+    },
+    "downgrade_to": null,
+    "metadata": {
+      "foreign_fee": false,
+      "rewards_type": "Cashback",
+      "network": "Discover",
+      "bonus_value": 0,
+      "bonus_spending": 0,
+      "bonus_time": 12.0,
+      "comment_bonus": "Cashback Match: Discover automatically matches all the cash back you’ve earned at the end of your first year.",
+      "comment_general": "Earns 2% at Gas Stations and Restaurants on up to $1,000 in combined purchases each quarter."
+    }
+  },
+  {
+    "id": "capitalOne_platinum_secured",
+    "name": "Capital One Platinum Secured",
+    "brand": "Capital One",
+    "family_id": "capital-one-platinum",
+    "min_score": 0,
+    "annual_fee": 0,
+    "subject_524": false,
+    "rewards": {
+      "base": 0.0
+    },
+    "downgrade_to": null,
+    "metadata": {
+      "foreign_fee": false,
+      "rewards_type": "None",
+      "network": "Mastercard",
+      "bonus_value": 0,
+      "bonus_spending": 0,
+      "bonus_time": 0,
+      "comment_bonus": "No welcome bonus available.",
+      "comment_general": "Designed for rebuilding credit with a low refundable deposit. No rewards, but no annual fee."
+    }
+  }
+]

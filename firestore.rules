@@ -5,7 +5,17 @@ service cloud.firestore {
     match /waitlist/{document} {
       allow create, read, write: if true;
     }
-    
+
+    // BYW progress tracking - allow create and update
+    match /build-your-wallet/{document} {
+      allow create, update: if true;
+    }
+
+    // BYW feedback - allow create
+    match /feedback-byw/{document} {
+      allow create: if true;
+    }
+
     // Default deny all other collections
     match /{document=**} {
       allow read, write: if false;

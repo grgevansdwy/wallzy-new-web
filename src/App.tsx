@@ -17,7 +17,8 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/cc-portfolio-maker" element={<CCPortfolioMaker />} />
+          <Route path="/byw" element={<CCPortfolioMaker />} />
+          <Route path="/byw/cards" element={<CCPortfolioMaker />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
