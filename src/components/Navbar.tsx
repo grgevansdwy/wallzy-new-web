@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import logo from "@/assets/logo.png";
 
 const Navbar = () => {
@@ -70,6 +71,12 @@ const Navbar = () => {
                 </a>
               );
             })}
+            <Link
+              to="/byw"
+              className="text-primary-foreground/90 hover:text-primary-foreground font-medium text-md tracking-wide border-b-2 border-transparent transition-all"
+            >
+              CC Reward Calculator
+            </Link>
             <Button
               className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-semibold px-6 py-2 text-sm rounded-lg"
               onClick={() =>
@@ -109,6 +116,13 @@ const Navbar = () => {
                 {link.name}
               </a>
             ))}
+            <Link
+              to="/byw"
+              className="text-primary-foreground text-2xl font-medium hover:text-secondary transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              CC Reward Calculator
+            </Link>
             <a
               href="#waitlist"
               className="text-primary-foreground text-2xl font-medium hover:text-secondary transition-colors"

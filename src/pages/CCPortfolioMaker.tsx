@@ -37,6 +37,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import logo from "@/assets/logo.png";
+import Navbar from "@/components/Navbar";
 import { db } from "@/lib/firebase";
 import {
   collection,
@@ -327,32 +328,9 @@ function CardsTable() {
 
   return (
     <div className="min-h-screen bg-wallzy-darkBlue flex flex-col">
-      <header className="flex items-center justify-between p-4 border-b border-white/10">
-        <Link
-          to="/"
-          className="flex items-center text-primary-foreground font-black text-xl tracking-tight hover:opacity-80 transition-opacity"
-        >
-          <img src={logo} alt="Wallzy" className="h-12 w-12 -mr-4" />
-          <span>allzy</span>
-        </Link>
-        <div className="flex items-center gap-6">
-          <Link
-            to="/byw"
-            className="text-white/50 hover:text-white text-sm font-medium transition-colors"
-          >
-            Build Wallet
-          </Link>
-          <Link
-            to="/byw/cards"
-            className="text-wallzy-yellow text-sm font-semibold border-b-2 border-wallzy-yellow pb-0.5"
-          >
-            Supported Cards
-          </Link>
-        </div>
-        <div className="w-12" />
-      </header>
+      <Navbar />
 
-      <div className="flex-1 overflow-y-auto p-4 max-w-6xl mx-auto w-full">
+      <div className="flex-1 overflow-y-auto p-4 max-w-6xl mx-auto w-full pt-24">
         <h2 className="text-white text-2xl font-bold mb-4">
           All Supported Cards
         </h2>
@@ -1073,19 +1051,9 @@ function PortfolioBuilder() {
   return (
     <div className="min-h-screen bg-wallzy-darkBlue flex flex-col">
       {/* Header */}
-      <header className="flex items-center justify-between p-4 border-b border-white/10">
-        <Link
-          to="/"
-          className="flex items-center text-primary-foreground font-black text-xl tracking-tight hover:opacity-80 transition-opacity"
-        >
-          <img src={logo} alt="Wallzy" className="h-12 w-12 -mr-4" />
-          <span>allzy</span>
-        </Link>
-        <h1 className="text-wallzy-white font-bold text-xl md:text-2xl">
-          Credit Card Portfolio Builder
-        </h1>
-        <div className="w-12" />
-      </header>
+      <Navbar />
+
+      <div className="pt-16" />
 
       {/* Step Progress Indicator */}
       {step !== "welcome" && currentProgressIndex >= 0 && (
@@ -1195,7 +1163,7 @@ function PortfolioBuilder() {
                 transition={{ delay: walletClicked ? 0 : 0.2, duration: 0.5 }}
                 className="relative z-10 text-3xl md:text-4xl lg:text-5xl font-black text-white mb-3 md:mb-4 text-center px-4"
               >
-                Build Your <span className="text-wallzy-yellow">Wallet</span>
+                Credit Card <span className="text-wallzy-yellow">Rewards Calculator</span>
               </motion.h2>
 
               <motion.p
