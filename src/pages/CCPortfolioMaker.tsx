@@ -1125,46 +1125,26 @@ function PortfolioBuilder() {
               onAnimationComplete={() => {
                 if (walletClicked) handleStart();
               }}
-              className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-wallzy-darkBlue"
+              className="fixed inset-x-0 bottom-0 top-16 z-40 flex flex-col items-center justify-center bg-wallzy-darkBlue"
             >
-              {/* Logo top-left */}
-              <Link
-                to="/"
-                className="absolute top-5 left-5 z-20 flex items-center hover:opacity-70 transition-opacity"
-              >
-                <img src={logo} alt="Wallzy" className="h-10 w-10" />
-                <span className="text-white font-black text-lg tracking-tight -ml-3">
-                  allzy
-                </span>
-              </Link>
-
-              {/* Tab links top-right */}
-              <div className="absolute top-5 right-5 z-20 flex items-center gap-6">
-                <Link
-                  to="/byw"
-                  className="text-wallzy-yellow text-sm font-semibold border-b-2 border-wallzy-yellow pb-0.5"
-                >
-                  Build Wallet
-                </Link>
-                <Link
-                  to="/byw/cards"
-                  className="text-white/50 hover:text-white text-sm font-medium transition-colors"
-                >
-                  Supported Cards
-                </Link>
-              </div>
 
               {/* Title */}
-              <motion.h2
+              <motion.h1
                 initial={{ opacity: 0, y: -20 }}
                 animate={
                   walletClicked ? { opacity: 0, y: -30 } : { opacity: 1, y: 0 }
                 }
                 transition={{ delay: walletClicked ? 0 : 0.2, duration: 0.5 }}
                 className="relative z-10 text-3xl md:text-4xl lg:text-5xl font-black text-white mb-3 md:mb-4 text-center px-4"
+                style={{ fontFamily: "'Outfit', sans-serif" }}
               >
-                Credit Card <span className="text-wallzy-yellow">Rewards Calculator</span>
-              </motion.h2>
+                <div>Credit Card</div>
+                <div>
+                  <span className="bg-wallzy-yellow text-wallzy-darkBlue font-bold rounded-lg inline-block" style={{ padding: "6px 14px" }}>
+                    Rewards Calculator.
+                  </span>
+                </div>
+              </motion.h1>
 
               <motion.p
                 initial={{ opacity: 0, y: -10 }}
@@ -1172,10 +1152,12 @@ function PortfolioBuilder() {
                   walletClicked ? { opacity: 0, y: -20 } : { opacity: 1, y: 0 }
                 }
                 transition={{ delay: walletClicked ? 0 : 0.3, duration: 0.5 }}
-                className="relative z-10 text-white/60 text-sm md:text-base max-w-md mx-auto text-center mb-8 md:mb-10 px-6"
+                className="relative z-10 text-white/80 text-sm md:text-base max-w-md mx-auto text-center mb-8 md:mb-10 px-6"
+                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
               >
-                Find out how much you can save by having the right cards in your
-                wallet
+                Discover how much you could be earning in rewards — and get a{" "}
+                <span className="text-wallzy-yellow font-bold">personalized card recommendation</span>{" "}
+                tailored to your spending habits.
               </motion.p>
 
               {/* Wallet with stacking cards */}
