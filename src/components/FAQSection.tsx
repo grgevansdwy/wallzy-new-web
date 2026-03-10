@@ -9,7 +9,7 @@ const faqs = [
   {
     question: "What is Wallzy?",
     answer:
-      "Wallzy is an app that sends you a simple notification recommending the best credit card to use whenever you shop. No spreadsheets, no guessing — just the right card at the right time.",
+      "Wallzy is an app that sends you a simple notification recommending the best credit card to use whenever you shop. No spreadsheets, no guessing. Just the right card at the right time.",
   },
   {
     question: "How does Wallzy work?",
@@ -24,7 +24,7 @@ const faqs = [
   {
     question: "How is Wallzy different from other recommendation apps?",
     answer:
-      "Wallzy has no affiliation with any bank, so our recommendations are always in your best interest. We also take a set-it-and-forget-it approach — once you're set up, you never need to open the app again.",
+      "Wallzy has no affiliation with any bank, so our recommendations are always in your best interest. We also take a set-it-and-forget-it approach: once you're set up, you never need to open the app again.",
   },
   {
     question: "How can I get early access to Wallzy?",

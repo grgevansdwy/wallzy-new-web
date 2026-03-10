@@ -6,8 +6,8 @@ const AboutSection = () => {
     <section id="about" className="py-20 lg:py-32 bg-background">
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-8 flex items-center justify-center gap-0" style={{ fontFamily: "'Outfit', sans-serif" }}>
-            About Wallzy
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-8 flex items-center justify-center gap-2" style={{ fontFamily: "'Outfit', sans-serif" }}>
+            About <span className="bg-secondary text-secondary-foreground font-bold rounded-lg inline-block" style={{ padding: "6px 14px" }}>Wallzy</span>
           </h2>
 
           <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-12">
@@ -38,8 +38,9 @@ const AboutSection = () => {
                 Our Vision
               </h3>
               <p className="text-muted-foreground">
-                A future where managing your rewards is as easy as a tap — so
-                you can focus on living, not tracking spreadsheets.
+                To transform how people interact with their finances by building
+                intelligent tools that simplify, maximize, and put control back
+                in their hands.
               </p>
             </div>
           </div>

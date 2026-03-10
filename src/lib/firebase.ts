@@ -26,7 +26,7 @@ const db = getFirestore(app);
 export { app, db };
 
 // Helper function to add email to waitlist
-export const addToWaitlist = async (email: string) => {
+export const addToWaitlist = async (email: string, source = "waitlist-form") => {
   try {
     console.log("1. Starting addToWaitlist with email:", email);
 
@@ -57,6 +57,7 @@ export const addToWaitlist = async (email: string) => {
     console.log("6. About to add document to Firestore");
     const docRef = await addDoc(waitlistRef, {
       email: normalizedEmail,
+      source,
       createdAt: serverTimestamp(),
     });
     console.log("7. Document added successfully with ID:", docRef.id);

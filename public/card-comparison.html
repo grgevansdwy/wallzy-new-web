@@ -439,10 +439,11 @@ function watchCard(id){
 }
 
 function pushToSheet(){
-  const SHEET_URL="YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
-  if(SHEET_URL==="YOUR_GOOGLE_APPS_SCRIPT_URL_HERE"||!state.userEmail)return;
-  const watchedNames=state.watchIds.map(id=>{const c=CARDS.find(x=>x.id===id);return c?c.name:id}).join(", ");
-  fetch(SHEET_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:state.userEmail,watchedCards:watchedNames})}).catch(()=>{});
+  if(!state.userEmail)return;
+  fetch("/api/add-to-waitlist",{
+    method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({email:state.userEmail,source:"card-comparison"})
+  }).catch(()=>{});
 }
 
 function showEmailGate(id){

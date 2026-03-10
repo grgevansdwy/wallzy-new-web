@@ -623,6 +623,7 @@ function PortfolioBuilder() {
   const [email, setEmail] = useState("");
   const [isSendingEmail, setIsSendingEmail] = useState(false);
   const [emailError, setEmailError] = useState<string | null>(null);
+  const [showSavePopup, setShowSavePopup] = useState(false);
 
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
@@ -657,6 +658,15 @@ function PortfolioBuilder() {
       });
     }
   }, [step, showTyping, ownedCards]);
+
+  useEffect(() => {
+    if (step === "results") {
+      const timer = setTimeout(() => setShowSavePopup(true), 1500);
+      return () => clearTimeout(timer);
+    } else {
+      setShowSavePopup(false);
+    }
+  }, [step]);
 
   const simulateTyping = (callback: () => void, delay = 800) => {
     setShowTyping(true);
@@ -1135,7 +1145,7 @@ function PortfolioBuilder() {
                   walletClicked ? { opacity: 0, y: -30 } : { opacity: 1, y: 0 }
                 }
                 transition={{ delay: walletClicked ? 0 : 0.2, duration: 0.5 }}
-                className="relative z-10 text-3xl md:text-4xl lg:text-5xl font-black text-white mb-3 md:mb-4 text-center px-4"
+                className="relative z-10 text-3xl md:text-4xl lg:text-5xl font-black text-white mb-3 md:mb-4 text-center px-4 mt-16"
                 style={{ fontFamily: "'Outfit', sans-serif" }}
               >
                 <div>Credit Card</div>
@@ -2643,6 +2653,21 @@ function PortfolioBuilder() {
                 </motion.div>
               )}
 
+              {/* Save My Results above Keep */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="flex justify-center"
+              >
+                <Button
+                  onClick={() => setStep("email-capture")}
+                  className="bg-wallzy-yellow hover:bg-wallzy-yellow/90 text-wallzy-darkBlue font-semibold px-8 rounded-full"
+                >
+                  Save My Results
+                </Button>
+              </motion.div>
+
               {/* KEEP Section */}
               {strategy.keep.length > 0 && (
                 <motion.div
@@ -3161,6 +3186,42 @@ function PortfolioBuilder() {
           <MessageCircle className="w-5 h-5" />
         </motion.button>
       )}
+
+      {/* Save My Results Popup */}
+      <AnimatePresence>
+        {showSavePopup && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+            onClick={() => setShowSavePopup(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-wallzy-darkBlue border border-wallzy-yellow/30 rounded-2xl p-8 mx-6 max-w-sm w-full text-center shadow-2xl"
+            >
+              <p className="text-wallzy-white font-semibold text-lg mb-2">Your results are ready!</p>
+              <p className="text-wallzy-white/60 text-sm mb-6">Save your personalized portfolio strategy to review it anytime.</p>
+              <Button
+                onClick={() => { setShowSavePopup(false); setStep("email-capture"); }}
+                className="bg-wallzy-yellow hover:bg-wallzy-yellow/90 text-wallzy-darkBlue font-semibold px-8 rounded-full w-full mb-3"
+              >
+                Save My Results
+              </Button>
+              <button
+                onClick={() => setShowSavePopup(false)}
+                className="text-wallzy-white/40 hover:text-wallzy-white/70 text-sm transition-colors"
+              >
+                Maybe later
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

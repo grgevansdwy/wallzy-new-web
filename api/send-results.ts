@@ -146,6 +146,45 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(500).json({ error: "Failed to send email", detail: error });
     }
 
+    // Add to Firebase waitlist collection
+    const projectId = process.env.VITE_FIREBASE_PROJECT_ID;
+    const apiKey = process.env.VITE_FIREBASE_API_KEY;
+    const normalizedEmail = email.trim().toLowerCase();
+    fetch(
+      `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents:runQuery?key=${apiKey}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          structuredQuery: {
+            from: [{ collectionId: "waitlist" }],
+            where: { fieldFilter: { field: { fieldPath: "email" }, op: "EQUAL", value: { stringValue: normalizedEmail } } },
+            limit: 1,
+          },
+        }),
+      }
+    )
+      .then((r) => r.json())
+      .then((queryData) => {
+        if (!queryData.some((r: any) => r.document)) {
+          fetch(
+            `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/waitlist?key=${apiKey}`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                fields: {
+                  email: { stringValue: normalizedEmail },
+                  source: { stringValue: "rewards-calculator" },
+                  createdAt: { timestampValue: new Date().toISOString() },
+                },
+              }),
+            }
+          ).catch(() => {});
+        }
+      })
+      .catch((fbErr) => console.error("Firestore waitlist error:", fbErr));
+
     return res.status(200).json({ success: true, id: data?.id });
   } catch (err) {
     console.error("Server error:", err);

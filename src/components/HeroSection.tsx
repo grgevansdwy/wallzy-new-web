@@ -57,7 +57,7 @@ const HeroSection = () => {
                     ?.scrollIntoView({ behavior: "smooth" })
                 }
               >
-                Start Earning
+                Join Waitlist
                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
               <Button
