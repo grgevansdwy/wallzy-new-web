@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wallzy — Card Comparison Tool</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a4d8a;
+    --navy-deep: #114378;
+    --navy-light: #245a9c;
+    --navy-surface: #1e5090;
+    --navy-card: #164882;
+    --amber: #FFC402;
+    --amber-glow: #FFD04D;
+    --amber-dim: #D4A800;
+    --white: #FFFFFF;
+    --white-dim: #C8D6E5;
+    --white-muted: #8DA4BE;
+    --blue-card: #6B9FCD;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{min-height:100vh;background:var(--navy-deep);font-family:'Plus Jakarta Sans',sans-serif;color:var(--white);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+  @keyframes fadeSlideUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+  @keyframes scaleIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+  @keyframes glow-pulse{0%,100%{opacity:.35}50%{opacity:.6}}
+  @keyframes cardFloat{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-10px) rotate(-4deg)}}
+  @keyframes cardFloat2{0%,100%{transform:translateY(0) rotate(4deg)}50%{transform:translateY(-8px) rotate(6deg)}}
+
+  /* Background ambient */
+  .bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .bg-glow .orb{position:absolute;border-radius:50%;filter:blur(120px)}
+  .bg-glow .orb-1{width:500px;height:500px;top:-150px;right:-80px;background:radial-gradient(circle,rgba(245,166,35,.12),transparent 70%);animation:glow-pulse 8s ease-in-out infinite}
+  .bg-glow .orb-2{width:400px;height:400px;top:50%;left:-120px;background:radial-gradient(circle,rgba(107,159,205,.1),transparent 70%);animation:glow-pulse 10s ease-in-out infinite 2s}
+  .bg-glow .orb-3{width:350px;height:350px;bottom:-80px;right:25%;background:radial-gradient(circle,rgba(245,166,35,.06),transparent 70%);animation:glow-pulse 12s ease-in-out infinite 4s}
+
+  .page-content{position:relative;z-index:1}
+
+  /* Logo */
+  .logo-mark{display:inline-flex;align-items:center;gap:2px}
+  .logo-text{font-family:'Outfit',sans-serif;font-size:28px;font-weight:800;color:var(--white);letter-spacing:-.5px}
+  .logo-w{color:var(--amber);font-style:italic}
+
+  .navbar{display:flex;justify-content:center;align-items:center;max-width:1200px;margin:0 auto;padding:24px 28px;animation:fadeSlideUp .5s ease}
+
+  /* Hero */
+  .hero{text-align:center;padding:28px 24px 30px;position:relative}
+  .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(245,166,35,.12);border:1px solid rgba(245,166,35,.25);color:var(--amber-glow);font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:8px 20px;border-radius:24px;margin-bottom:18px;animation:fadeSlideUp .5s .1s both ease}
+  .hero h1{font-family:'Outfit',sans-serif;font-size:clamp(30px,5vw,48px);font-weight:900;line-height:1.1;margin:0 0 14px;letter-spacing:-1px;animation:fadeSlideUp .6s .15s both ease}
+  .hero h1 .accent{background:var(--amber);color:var(--navy-deep);padding:6px 14px;border-radius:8px;display:inline-block;font-weight:700}
+  .hero p{font-size:15px;color:var(--white);max-width:520px;margin:0 auto;line-height:1.7;animation:fadeSlideUp .6s .25s both ease}
+  .hero p strong{color:var(--amber-glow);font-weight:700}
+
+  /* Filters */
+  .filters-wrap{max-width:1200px;margin:0 auto;padding:0 28px 8px;animation:fadeSlideUp .6s .35s both ease}
+  .filters-box{background:var(--navy);border-radius:20px;padding:18px 22px;border:1px solid rgba(255,255,255,.08)}
+  .search-wrap{position:relative;margin-bottom:14px}
+  .search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--white);pointer-events:none}
+  .search-input{width:100%;padding:12px 14px 12px 42px;border-radius:14px;border:2px solid rgba(255,255,255,.1);font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;outline:none;transition:border .25s;background:rgba(255,255,255,.05);color:var(--white)}
+  .search-input::placeholder{color:rgba(255,255,255,.7)}
+  .search-input:focus{border-color:var(--amber);background:rgba(245,166,35,.04)}
+
+  .filters-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+  .cat-btns{display:flex;gap:6px;flex-wrap:wrap}
+  .filter-btn{padding:7px 14px;border-radius:24px;font-size:12px;font-weight:600;cursor:pointer;transition:all .25s;border:1.5px solid rgba(255,255,255,.12);font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;background:transparent;color:var(--white)}
+  .filter-btn:hover{border-color:rgba(255,255,255,.25);color:var(--white)}
+  .filter-btn.active{background:var(--amber);color:var(--navy-deep);border-color:transparent;font-weight:700;box-shadow:0 4px 16px rgba(245,166,35,.3)}
+
+  .right-filters{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .sel{padding:7px 11px;border-radius:10px;border:1.5px solid rgba(255,255,255,.12);font-size:12px;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;outline:none;background:var(--navy-light);color:var(--white)}
+  .sel option{background:var(--navy-deep);color:var(--white)}
+
+  .filters-row-2{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06)}
+  .fg{display:flex;align-items:center;gap:5px}
+  .fg-label{font-size:10px;font-weight:700;color:var(--white);text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+
+  .results-count{max-width:1200px;margin:0 auto;padding:16px 28px 8px;font-size:13px;color:var(--white-muted);font-weight:600}
+  .card-grid{max-width:1200px;margin:0 auto;padding:6px 28px 120px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+
+  /* Card Tiles */
+  .card-tile{background:var(--navy);border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,.08);transition:all .4s cubic-bezier(.16,1,.3,1);cursor:default;position:relative}
+  .card-tile::before{content:'';position:absolute;inset:0;border-radius:18px;background:linear-gradient(135deg,rgba(245,166,35,.05),transparent 60%);opacity:0;transition:opacity .4s;pointer-events:none}
+  .card-tile:hover{border-color:rgba(245,166,35,.25);box-shadow:0 20px 60px rgba(0,0,0,.3),0 0 40px rgba(245,166,35,.06);transform:translateY(-5px)}
+  .card-tile:hover::before{opacity:1}
+
+  .card-header{padding:20px 20px 16px;position:relative;overflow:hidden}
+  .card-header .orb1{position:absolute;top:-28px;right:-28px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,.06)}
+  .card-header .orb2{position:absolute;bottom:-18px;left:-18px;width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.03)}
+  .card-header-inner{display:flex;justify-content:space-between;align-items:flex-start;position:relative;z-index:1}
+  .card-issuer{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.6)}
+  .card-name{font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;color:#fff;margin:4px 0 0;line-height:1.3}
+  .reward-badge{background:rgba(255,255,255,.12);backdrop-filter:blur(10px);border-radius:12px;padding:6px 11px;text-align:center;flex-shrink:0;margin-left:10px;border:1px solid rgba(255,255,255,.08)}
+  .reward-badge .num{font-family:'Outfit',sans-serif;font-size:18px;font-weight:800;color:#fff}
+  .reward-badge .lbl{font-size:8px;color:rgba(255,255,255,.6);font-weight:700;letter-spacing:.8px}
+
+  .card-body{padding:14px 20px 20px}
+  .fee-tag{display:inline-block;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;margin-bottom:10px;letter-spacing:.3px}
+  .fee-tag.free{background:rgba(110,231,160,.12);color:#6EE7A0;border:1px solid rgba(110,231,160,.15)}
+  .fee-tag.paid{background:rgba(245,166,35,.1);color:var(--amber-glow);border:1px solid rgba(245,166,35,.12)}
+
+  .info-label{font-size:10px;color:var(--white-muted);font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+  .info-value{font-size:13px;font-weight:700;color:var(--white);margin-top:1px}
+
+  .card-section{margin-bottom:10px}
+  .card-section .info-label{margin-bottom:2px}
+  .card-section-text{font-size:12.5px;color:var(--white-dim);line-height:1.45}
+
+  .card-apr-row{display:flex;gap:8px;margin-bottom:12px}
+  .card-apr-row>div{flex:1}
+
+  .star-row{display:flex;align-items:center;gap:2px}
+  .star-row .rn{font-size:12px;font-weight:700;margin-left:4px;color:var(--amber-glow)}
+  .best-for{font-size:11px;color:var(--white-muted);margin-top:6px;font-style:italic}
+
+  .card-actions{display:flex;gap:7px;margin-top:14px}
+  .btn-c,.btn-d{flex:1;padding:9px;border-radius:11px;font-size:12px;font-weight:700;cursor:pointer;transition:all .25s;font-family:'Plus Jakarta Sans',sans-serif}
+  .btn-c{border:1.5px solid var(--amber);background:transparent;color:var(--amber)}
+  .btn-c:hover{background:rgba(245,166,35,.1)}
+  .btn-c.active{background:var(--amber);color:var(--navy-deep);border-color:transparent;box-shadow:0 4px 16px rgba(245,166,35,.3)}
+  .btn-d{border:1.5px solid rgba(255,255,255,.12);background:transparent;color:var(--white-dim)}
+  .btn-d:hover{border-color:rgba(255,255,255,.25);color:var(--white)}
+
+  /* FAB */
+  .compare-fab{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--amber);color:var(--navy-deep);border:none;padding:14px 32px;border-radius:50px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 8px 32px rgba(245,166,35,.4),0 0 60px rgba(245,166,35,.1);font-family:'Outfit',sans-serif;z-index:100;letter-spacing:.3px;transition:all .3s;animation:fadeSlideUp .4s;display:none}
+  .compare-fab.visible{display:block}
+  .compare-fab:hover{transform:translateX(-50%) translateY(-3px);box-shadow:0 12px 40px rgba(245,166,35,.5)}
+
+  /* Overlays */
+  .overlay{position:fixed;inset:0;z-index:1000;background:rgba(10,25,40,.8);backdrop-filter:blur(8px);display:none;animation:fadeIn .3s}
+  .overlay.visible{display:flex}
+  .overlay.comparison{align-items:flex-end;justify-content:center}
+  .comparison-panel{background:var(--navy);border-radius:28px 28px 0 0;width:100%;max-width:980px;max-height:82vh;overflow:auto;padding:30px;animation:slideUp .4s cubic-bezier(.16,1,.3,1);border:1px solid rgba(255,255,255,.08);border-bottom:none}
+  .comparison-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+  .comparison-header h2{font-family:'Outfit',sans-serif;font-size:22px;font-weight:800;color:var(--white);margin:0;letter-spacing:-.5px}
+  .close-btn{width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);cursor:pointer;font-size:18px;color:var(--white-muted);display:flex;align-items:center;justify-content:center;transition:all .2s}
+  .close-btn:hover{background:rgba(255,255,255,.1);color:var(--white)}
+  .comparison-table{width:100%;border-collapse:separate;border-spacing:0}
+  .comparison-table th{padding:10px 12px;text-align:center;border-bottom:1px solid rgba(255,255,255,.08)}
+  .comparison-table th:first-child{width:120px;text-align:left}
+  .comparison-table .th-cn{color:#fff;padding:10px 10px;border-radius:10px;font-size:12px;font-weight:700;line-height:1.3}
+  .comparison-table td{padding:10px 12px;text-align:center;font-size:12px;color:var(--white-dim);border-bottom:1px solid rgba(255,255,255,.04);line-height:1.5}
+  .comparison-table td:first-child{text-align:left;font-weight:700;color:var(--white-muted);font-size:11px}
+  .comparison-table tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+
+  .overlay.detail{align-items:center;justify-content:center;padding:20px}
+  .detail-panel{background:var(--navy);border-radius:24px;width:100%;max-width:460px;max-height:85vh;overflow:auto;animation:scaleIn .4s cubic-bezier(.16,1,.3,1);border:1px solid rgba(255,255,255,.08)}
+  .detail-header{padding:26px 24px 20px;position:relative;border-radius:24px 24px 0 0}
+  .detail-header .close-btn{position:absolute;top:14px;right:14px;width:30px;height:30px;background:rgba(255,255,255,.15);color:#fff;font-size:14px;border:none}
+  .detail-header h2{font-family:'Outfit',sans-serif;font-size:19px;font-weight:700;color:#fff;margin:6px 0 10px;line-height:1.3}
+  .detail-body{padding:20px 24px 24px}
+  .detail-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+  .detail-stat{background:rgba(255,255,255,.04);padding:12px;border-radius:14px;border:1px solid rgba(255,255,255,.06)}
+  .detail-stat .sv{font-size:16px;font-weight:800;margin-top:3px;color:var(--white)}
+  .detail-stat .sv.green{color:#6EE7A0}
+  .detail-section{margin-bottom:12px}
+  .detail-section .info-label{margin-bottom:4px;font-size:11px}
+  .detail-section p{font-size:13px;color:var(--white-dim);line-height:1.6}
+  .feature-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .feature-tag{background:rgba(245,166,35,.1);color:var(--amber-glow);font-size:11px;font-weight:600;padding:5px 11px;border-radius:20px;border:1px solid rgba(245,166,35,.12)}
+
+  .empty-state{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--white-muted);font-size:15px}
+  .empty-state .emoji{font-size:48px;margin-bottom:12px}
+
+  /* Watch / Alert button */
+  .btn-w{width:40px;flex-shrink:0;padding:9px 0;border-radius:11px;font-size:15px;cursor:pointer;transition:all .25s;border:1.5px solid rgba(255,255,255,.12);background:transparent;display:flex;align-items:center;justify-content:center}
+  .btn-w:hover{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.05)}
+  .btn-w.active{border-color:var(--amber);background:rgba(245,166,35,.12)}
+  .btn-w .bell{transition:transform .3s}
+  .btn-w.active .bell{animation:ring .5s ease}
+  @keyframes ring{0%{transform:rotate(0)}20%{transform:rotate(15deg)}40%{transform:rotate(-15deg)}60%{transform:rotate(10deg)}80%{transform:rotate(-5deg)}100%{transform:rotate(0)}}
+
+  .watched-badge{position:absolute;top:12px;right:12px;background:var(--amber);color:var(--navy-deep);font-size:9px;font-weight:800;padding:3px 8px;border-radius:10px;z-index:2;letter-spacing:.3px;display:flex;align-items:center;gap:3px}
+
+  /* Email gate modal */
+  .overlay.email-gate{align-items:center;justify-content:center;padding:20px}
+  .email-panel{background:var(--navy);border-radius:24px;width:100%;max-width:420px;animation:scaleIn .4s cubic-bezier(.16,1,.3,1);border:1px solid rgba(255,255,255,.08);overflow:hidden}
+  .email-panel-top{background:linear-gradient(135deg,var(--navy-light),var(--navy));padding:28px 28px 20px;text-align:center}
+  .email-panel-top .ep-icon{font-size:40px;margin-bottom:10px}
+  .email-panel-top h2{font-family:'Outfit',sans-serif;font-size:20px;font-weight:800;color:var(--white);margin:0 0 6px;letter-spacing:-.3px}
+  .email-panel-top p{font-size:13px;color:var(--white-dim);line-height:1.5;margin:0}
+  .email-panel-body{padding:20px 28px 28px}
+  .email-input{width:100%;padding:13px 16px;border-radius:14px;border:2px solid rgba(255,255,255,.1);font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;outline:none;transition:border .25s;background:rgba(255,255,255,.05);color:var(--white);margin-bottom:12px}
+  .email-input::placeholder{color:rgba(255,255,255,.5)}
+  .email-input:focus{border-color:var(--amber);background:rgba(245,166,35,.04)}
+  .email-input.error{border-color:#F87171}
+  .email-submit{width:100%;padding:13px;border-radius:14px;background:var(--amber);color:var(--navy-deep);border:none;font-size:14px;font-weight:800;font-family:'Outfit',sans-serif;cursor:pointer;transition:all .25s;letter-spacing:.3px}
+  .email-submit:hover{box-shadow:0 6px 24px rgba(245,166,35,.35);transform:translateY(-1px)}
+  .email-fine{font-size:11px;color:var(--white-muted);text-align:center;margin-top:12px;line-height:1.4}
+  .email-skip{display:block;width:100%;text-align:center;background:none;border:none;color:var(--white-muted);font-size:12px;font-weight:600;cursor:pointer;margin-top:10px;padding:6px;font-family:'Plus Jakarta Sans',sans-serif;transition:color .2s}
+  .email-skip:hover{color:var(--white)}
+
+  .email-success{text-align:center;padding:36px 28px}
+  .email-success .check{font-size:48px;margin-bottom:10px}
+  .email-success h3{font-family:'Outfit',sans-serif;font-size:18px;font-weight:800;color:var(--white);margin:0 0 6px}
+  .email-success p{font-size:13px;color:var(--white-dim);line-height:1.5}
+
+  ::-webkit-scrollbar{width:8px}
+  ::-webkit-scrollbar-track{background:var(--navy-deep)}
+  ::-webkit-scrollbar-thumb{background:var(--navy-light);border-radius:4px}
+</style>
+</head>
+<body>
+<div class="bg-glow"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
+<div class="page-content">
+
+<div class="hero" style="padding-top:48px">
+  <h1>Compare Every Card.<br>Pick the <span class="accent">Perfect One.</span></h1>
+  <p>From <strong>premium travel</strong> to <strong>student cash back</strong> to <strong>credit building</strong> — filter, sort, and compare all top US credit cards in one place.</p>
+</div>
+
+<div class="filters-wrap"><div class="filters-box">
+  <div class="search-wrap"><span class="search-icon">🔍</span><input class="search-input" id="searchInput" type="text" placeholder="Search by card name or issuer..."></div>
+  <div class="filters-row">
+    <div class="cat-btns" id="catBtns"></div>
+    <div class="right-filters">
+      <select class="sel" id="sortSelect"><option value="rating">Top Rated</option><option value="apr-low">Lowest APR</option><option value="rewards">Best Rewards</option><option value="fee-low">Lowest Annual Fee</option></select>
+    </div>
+  </div>
+  <div class="filters-row-2">
+    <div class="fg"><span class="fg-label">Annual Fee:</span><select class="sel" id="feeSelect"><option value="any">Any</option><option value="0">$0 Only</option><option value="100">Under $100</option><option value="250">Under $250</option><option value="500">Under $500</option><option value="500+">$500+</option></select></div>
+    <div class="fg"><span class="fg-label">Credit Score:</span><select class="sel" id="creditSelect"><option value="any">Any</option><option value="none">No/Limited Credit</option><option value="fair">Fair (580–669)</option><option value="good">Good (670–739)</option><option value="excellent">Excellent (740+)</option></select></div>
+  </div>
+</div></div>
+
+<div class="results-count" id="resultsCount"></div>
+<div class="card-grid" id="cardGrid"></div>
+<button class="compare-fab" id="compareFab"></button>
+<div class="overlay comparison" id="comparisonOverlay"><div class="comparison-panel" id="comparisonPanel"></div></div>
+<div class="overlay detail" id="detailOverlay"><div class="detail-panel" id="detailPanel"></div></div>
+<div class="overlay email-gate" id="emailOverlay"><div class="email-panel" id="emailPanel"></div></div>
+</div>
+
+<script>
+const CARDS=[
+  // PREMIUM TRAVEL
+  {id:1,name:"Chase Sapphire Reserve®",issuer:"Chase",annualFee:795,apr:{low:19.49,high:27.99},rewardsRate:"8x Chase Travel, 4x flights/hotels direct, 3x dining, 1x all",rewardsHighlight:"8x",signUpBonus:"125K pts after $6K/3mo",creditNeeded:"Excellent (740+)",creditTier:"excellent",features:["$300 travel credit","Chase Sapphire Lounges","$500 The Edit hotel credit","$300 dining credit","$300 StubHub credit","Priority Pass","Global Entry credit"],category:"Premium Travel",rating:4.8,bestFor:"Frequent premium travelers",color:"#1A3A5C",gradientEnd:"#0F2640"},
+  {id:2,name:"Amex Platinum Card®",issuer:"Amex",annualFee:895,apr:{low:0,high:0},rewardsRate:"5x flights & hotels via Amex Travel, 1x all else",rewardsHighlight:"5x",signUpBonus:"Up to 175K pts after $12K/6mo",creditNeeded:"Excellent (740+)",creditTier:"excellent",features:["$600 hotel credit","$400 Resy dining credit","$300 digital entertainment credit","$200 Uber Cash + $120 Uber One","$100 Saks credit","Centurion Lounges","Global Entry credit"],category:"Premium Travel",rating:4.7,bestFor:"Luxury travelers maximizing credits",color:"#6B6B6B",gradientEnd:"#454545"},
+  {id:3,name:"Capital One Venture X",issuer:"Capital One",annualFee:395,apr:{low:19.49,high:28.49},rewardsRate:"10x hotels/cars via portal, 5x flights/vacation rentals, 2x all else",rewardsHighlight:"10x",signUpBonus:"75K miles after $4K/3mo",creditNeeded:"Excellent (740+)",creditTier:"excellent",features:["$300 travel credit","10K-mile anniversary bonus","Priority Pass + Capital One Lounges","Global Entry credit","Premier Collection benefits"],category:"Premium Travel",rating:4.8,bestFor:"Best value premium card",color:"#2D4A22",gradientEnd:"#1A3215"},
+  // TRAVEL
+  {id:4,name:"Chase Sapphire Preferred®",issuer:"Chase",annualFee:95,apr:{low:19.24,high:27.49},rewardsRate:"5x Chase Travel, 3x dining/streaming/online groceries, 2x other travel, 1x all",rewardsHighlight:"5x",signUpBonus:"75K pts after $5K/3mo",creditNeeded:"Good (670+)",creditTier:"good",features:["$50 annual hotel credit","10% anniversary points bonus","Transfer to 14+ partners","Trip cancellation insurance","DashPass membership"],category:"Travel",rating:4.7,bestFor:"Best all-around travel card",color:"#1E4D7B",gradientEnd:"#133560"},
+  {id:5,name:"Capital One Venture Rewards",issuer:"Capital One",annualFee:95,apr:{low:19.49,high:28.49},rewardsRate:"5x hotels/cars/entertainment via portal, 2x all else",rewardsHighlight:"5x",signUpBonus:"75K miles + $250 travel credit after $4K/3mo",creditNeeded:"Good (670+)",creditTier:"good",features:["Transfer to 15+ partners","Global Entry credit","$50 Lifestyle Collection credit","No blackout dates"],category:"Travel",rating:4.6,bestFor:"Simple earning, flexible redemption",color:"#5C3D2E",gradientEnd:"#3E2A1E"},
+  {id:6,name:"Citi Strata Premier℠",issuer:"Citi",annualFee:95,apr:{low:20.24,high:28.24},rewardsRate:"10x hotels/cars/attractions via Citi Travel, 3x air/dining/grocery/gas, 1x all",rewardsHighlight:"10x",signUpBonus:"60K pts after $4K/3mo",creditNeeded:"Good (670+)",creditTier:"good",features:["$100 annual hotel credit","Transfer to airline/hotel partners","AA AAdvantage transfers","Trip delay protection","No foreign transaction fees"],category:"Travel",rating:4.5,bestFor:"Affordable travel rewards",color:"#0B3D91",gradientEnd:"#072B66"},
+  // AIRLINE
+  {id:7,name:"Delta SkyMiles® Gold Amex",issuer:"Amex",annualFee:150,apr:{low:21.49,high:30.49},rewardsRate:"2x Delta/dining/US supermarkets, 1x all",rewardsHighlight:"2x",signUpBonus:"70K + 20K miles after $3K+$2K/6mo",creditNeeded:"Good (670+)",creditTier:"good",features:["$0 first-year fee","First bag free on Delta","15% off award flights","$200 flight credit after $10K spend","20% off inflight"],category:"Airline",rating:4.3,bestFor:"Frequent Delta flyers",color:"#003366",gradientEnd:"#001A33"},
+  {id:8,name:"United℠ Explorer Card",issuer:"Chase",annualFee:95,apr:{low:22.49,high:29.49},rewardsRate:"3x United/travel, 2x dining/hotels, 1x all",rewardsHighlight:"3x",signUpBonus:"60K miles after $3K/3mo",creditNeeded:"Good (670+)",creditTier:"good",features:["First bag free","Expanded award seats","2 United Club passes/yr","Priority boarding"],category:"Airline",rating:4.3,bestFor:"United loyalists",color:"#003B70",gradientEnd:"#002550"},
+  {id:9,name:"Southwest Rapid Rewards® Plus",issuer:"Chase",annualFee:69,apr:{low:21.99,high:28.99},rewardsRate:"2x Southwest & partners, 1x all",rewardsHighlight:"2x",signUpBonus:"50K pts after $1K/3mo",creditNeeded:"Good (670+)",creditTier:"good",features:["3K anniversary pts","No bag fees (Southwest)","No change fees","Earn toward Companion Pass"],category:"Airline",rating:4.1,bestFor:"Southwest loyalists",color:"#304CB2",gradientEnd:"#1F3380"},
+  {id:10,name:"AA Aviator Red® World Elite",issuer:"Barclays",annualFee:99,apr:{low:21.49,high:29.49},rewardsRate:"2x American Airlines, 1x all",rewardsHighlight:"2x",signUpBonus:"60K miles after 1st purchase",creditNeeded:"Good (670+)",creditTier:"good",features:["First bag free","Preferred boarding","25% off inflight"],category:"Airline",rating:4.2,bestFor:"Easy miles with 1-purchase bonus",color:"#1B6CB0",gradientEnd:"#104A80"},
+  // HOTEL
+  {id:11,name:"Marriott Bonvoy Boundless®",issuer:"Chase",annualFee:95,apr:{low:21.99,high:28.99},rewardsRate:"6x Marriott, 3x dining/gas, 2x all",rewardsHighlight:"6x",signUpBonus:"3 free nights (50K pts each) after $3K/3mo",creditNeeded:"Good (670+)",creditTier:"good",features:["Free night award annually","Auto Silver Elite","15 elite night credits"],category:"Hotel",rating:4.3,bestFor:"Marriott loyalists",color:"#8B2252",gradientEnd:"#6A1840"},
+  {id:12,name:"Hilton Honors Amex Surpass®",issuer:"Amex",annualFee:150,apr:{low:22.49,high:29.49},rewardsRate:"12x Hilton, 6x dining/supermarkets/gas, 3x all",rewardsHighlight:"12x",signUpBonus:"130K pts after $3K/6mo",creditNeeded:"Good (670+)",creditTier:"good",features:["Free night reward","Auto Gold status","10 Priority Pass visits"],category:"Hotel",rating:4.4,bestFor:"Hilton regulars",color:"#003A70",gradientEnd:"#002550"},
+  {id:13,name:"World of Hyatt Credit Card",issuer:"Chase",annualFee:95,apr:{low:21.99,high:28.99},rewardsRate:"4x Hyatt, 2x dining/fitness/transit, 1x all",rewardsHighlight:"4x",signUpBonus:"30K pts after $3K/3mo",creditNeeded:"Good (670+)",creditTier:"good",features:["Free night annually (Cat 1-4)","Auto Discoverist status","5 elite qualifying nights"],category:"Hotel",rating:4.5,bestFor:"Hyatt loyalists (high-value points)",color:"#6B3A5A",gradientEnd:"#4D2840"},
+  // CASH BACK
+  {id:14,name:"Citi® Double Cash Card",issuer:"Citi",annualFee:0,apr:{low:17.49,high:27.49},rewardsRate:"2% on everything (1% purchase + 1% payment)",rewardsHighlight:"2%",signUpBonus:"$200 after $1.5K/6mo",creditNeeded:"Good (670+)",creditTier:"good",features:["No annual fee","Flat 2% cashback","Citi Entertainment","Balance transfer option"],category:"Cash Back",rating:4.6,bestFor:"Simple flat-rate cash back",color:"#3A5F8A",gradientEnd:"#2A4A6E"},
+  {id:15,name:"Wells Fargo Active Cash®",issuer:"Wells Fargo",annualFee:0,apr:{low:18.49,high:28.49},rewardsRate:"2% cash rewards on all purchases",rewardsHighlight:"2%",signUpBonus:"$200 after $500/3mo",creditNeeded:"Good (670+)",creditTier:"good",features:["No annual fee","Flat 2% cashback","Cell phone protection","Intro 0% APR 12mo"],category:"Cash Back",rating:4.5,bestFor:"Easy 2% with low-spend bonus",color:"#B22222",gradientEnd:"#8B1A1A"},
+  {id:16,name:"Chase Freedom Unlimited®",issuer:"Chase",annualFee:0,apr:{low:18.24,high:27.74},rewardsRate:"5% Chase Travel, 3% dining/drugstores, 1.5% all",rewardsHighlight:"5%",signUpBonus:"$200 after $500/3mo",creditNeeded:"Good (670+)",creditTier:"good",features:["No annual fee","Pairs w/ Sapphire cards","Intro 0% APR 15mo","Purchase protection","DashPass membership"],category:"Cash Back",rating:4.7,bestFor:"Chase ecosystem starter",color:"#1B4F8F",gradientEnd:"#103A6B"},
+  {id:17,name:"Chase Freedom Flex℠",issuer:"Chase",annualFee:0,apr:{low:18.24,high:27.74},rewardsRate:"5% rotating categories, 3% dining/drugstores, 1% all",rewardsHighlight:"5%",signUpBonus:"$200 after $500/3mo",creditNeeded:"Good (670+)",creditTier:"good",features:["No annual fee","5% rotating categories","Intro 0% APR 15mo","Pairs w/ Sapphire","DashPass membership"],category:"Cash Back",rating:4.6,bestFor:"Rotating category maximizers",color:"#2E5090",gradientEnd:"#1D3A6B"},
+  {id:18,name:"Blue Cash Preferred® Amex",issuer:"Amex",annualFee:95,apr:{low:19.24,high:29.99},rewardsRate:"6% supermarkets ($6K/yr cap), 6% streaming, 3% gas/transit, 1% all",rewardsHighlight:"6%",signUpBonus:"$350 after $3K/6mo",creditNeeded:"Good (670+)",creditTier:"good",features:["6% at supermarkets","6% on streaming","Intro 0% APR 12mo","Return protection"],category:"Cash Back",rating:4.5,bestFor:"Grocery & streaming spenders",color:"#006FCF",gradientEnd:"#004E95"},
+  {id:19,name:"Blue Cash Everyday® Amex",issuer:"Amex",annualFee:0,apr:{low:19.24,high:29.99},rewardsRate:"3% supermarkets ($6K/yr cap), 3% gas, 3% online retail, 1% all",rewardsHighlight:"3%",signUpBonus:"$200 after $2K/6mo",creditNeeded:"Good (670+)",creditTier:"good",features:["No annual fee","3% supermarkets","3% gas","Intro 0% APR 15mo"],category:"Cash Back",rating:4.4,bestFor:"No-fee grocery rewards",color:"#0077C8",gradientEnd:"#005A9E"},
+  {id:20,name:"Capital One Savor Rewards",issuer:"Capital One",annualFee:95,apr:{low:19.99,high:29.99},rewardsRate:"4% dining/entertainment, 3% grocery/streaming, 1% all",rewardsHighlight:"4%",signUpBonus:"$300 after $3K/3mo",creditNeeded:"Good (670+)",creditTier:"good",features:["4% dining/entertainment","3% grocery/streaming","Capital One Entertainment"],category:"Cash Back",rating:4.4,bestFor:"Foodies & entertainment fans",color:"#8B3A62",gradientEnd:"#6A2A4A"},
+  {id:21,name:"Discover it® Cash Back",issuer:"Discover",annualFee:0,apr:{low:18.24,high:27.24},rewardsRate:"5% rotating categories ($1,500/qtr cap), 1% all",rewardsHighlight:"5%",signUpBonus:"Cashback Match™ year 1",creditNeeded:"Good (670+)",creditTier:"good",features:["No annual fee","Cashback Match doubles yr 1","Free FICO score"],category:"Cash Back",rating:4.6,bestFor:"Rotating categories + Cashback Match",color:"#D97B1A",gradientEnd:"#B56515"},
+  // BALANCE TRANSFER
+  {id:22,name:"Citi® Diamond Preferred®",issuer:"Citi",annualFee:0,apr:{low:17.24,high:27.99},rewardsRate:"No rewards program",rewardsHighlight:"0%",signUpBonus:"0% intro APR 21mo on balance transfers",creditNeeded:"Good (670+)",creditTier:"good",features:["No annual fee","0% BT for 21 months","Free FICO score","Citi Entertainment"],category:"Balance Transfer",rating:4.2,bestFor:"Longest 0% balance transfer",color:"#4A6FA5",gradientEnd:"#34507A"},
+  {id:23,name:"BankAmericard® Credit Card",issuer:"Bank of America",annualFee:0,apr:{low:16.24,high:26.24},rewardsRate:"No rewards program",rewardsHighlight:"0%",signUpBonus:"0% intro APR 21mo on purchases & BT",creditNeeded:"Good (670+)",creditTier:"good",features:["No annual fee","0% intro 21 months","Online banking integration","Contactless payment"],category:"Balance Transfer",rating:4.1,bestFor:"0% on both purchases & transfers",color:"#C41230",gradientEnd:"#8E0D22"},
+  // STUDENT
+  {id:24,name:"Discover it® Student Cash Back",issuer:"Discover",annualFee:0,apr:{low:18.24,high:27.24},rewardsRate:"5% rotating categories, 1% all else",rewardsHighlight:"5%",signUpBonus:"Cashback Match™ year 1",creditNeeded:"No Credit / Limited",creditTier:"none",features:["No annual fee","Cashback Match","Good Grade Reward","Free FICO score"],category:"Student",rating:4.8,bestFor:"Best student card overall",color:"#E8961E",gradientEnd:"#C47D15"},
+  {id:25,name:"Capital One SavorOne Student",issuer:"Capital One",annualFee:0,apr:{low:19.99,high:29.99},rewardsRate:"3% dining/entertainment/grocery/streaming, 1% all",rewardsHighlight:"3%",signUpBonus:"$50 after $100/3mo",creditNeeded:"No Credit / Limited",creditTier:"none",features:["No annual fee","Flat-rate dining rewards","Auto credit line increase"],category:"Student",rating:4.6,bestFor:"Student dining & entertainment",color:"#5C4DA6",gradientEnd:"#463A80"},
+  {id:26,name:"Chase Freedom Rise℠",issuer:"Chase",annualFee:0,apr:{low:20.49,high:28.24},rewardsRate:"1.5% on all purchases",rewardsHighlight:"1.5%",signUpBonus:"None",creditNeeded:"No Credit / Limited",creditTier:"none",features:["No annual fee","Flat-rate rewards","Free credit monitoring","Auto credit line review"],category:"Student",rating:4.3,bestFor:"Building credit simply",color:"#1A4A72",gradientEnd:"#0F3558"},
+  {id:27,name:"Deserve® EDU Mastercard",issuer:"Deserve",annualFee:0,apr:{low:18.74,high:25.74},rewardsRate:"1% cashback on all purchases",rewardsHighlight:"1%",signUpBonus:"Amazon Prime Student 1 year",creditNeeded:"No Credit / International",creditTier:"none",features:["No annual fee","No SSN required","Amazon Prime Student"],category:"Student",rating:4.1,bestFor:"International students",color:"#00695C",gradientEnd:"#004D40"},
+  // SECURED
+  {id:28,name:"Discover it® Secured",issuer:"Discover",annualFee:0,apr:{low:28.24,high:28.24},rewardsRate:"2% gas/restaurants ($1K/qtr cap), 1% all",rewardsHighlight:"2%",signUpBonus:"Cashback Match™ year 1",creditNeeded:"Bad / No Credit",creditTier:"none",features:["No annual fee","Cashback Match","Free FICO score","Auto upgrade review"],category:"Secured",rating:4.5,bestFor:"Best secured card with rewards",color:"#B87333",gradientEnd:"#9A5F28"},
+  {id:29,name:"Capital One Platinum Secured",issuer:"Capital One",annualFee:0,apr:{low:29.99,high:29.99},rewardsRate:"No rewards program",rewardsHighlight:"—",signUpBonus:"None",creditNeeded:"Bad / No Credit",creditTier:"none",features:["No annual fee","Deposit from $49","Auto credit line increase","CreditWise access"],category:"Secured",rating:4.0,bestFor:"Low deposit to start building",color:"#4A6B5A",gradientEnd:"#3A5548"},
+  {id:30,name:"Chime Secured Credit Builder",issuer:"Chime",annualFee:0,apr:{low:0,high:0},rewardsRate:"No rewards / no interest",rewardsHighlight:"—",signUpBonus:"None",creditNeeded:"No Credit Check",creditTier:"none",features:["No annual fee","No interest","No credit check","Reports to 3 bureaus"],category:"Secured",rating:4.2,bestFor:"Credit building with zero interest",color:"#2E8B57",gradientEnd:"#206B42"},
+  // BUSINESS
+  {id:31,name:"Chase Ink Business Preferred®",issuer:"Chase",annualFee:95,apr:{low:21.24,high:26.24},rewardsRate:"3x travel/shipping/internet/ads/phone, 1x all",rewardsHighlight:"3x",signUpBonus:"100K pts after $8K/3mo",creditNeeded:"Good (670+)",creditTier:"good",features:["100K sign-up bonus","Transfer to travel partners","Cell phone protection","Trip cancellation insurance"],category:"Business",rating:4.7,bestFor:"Business owners who travel",color:"#2C2C2C",gradientEnd:"#151515"},
+  {id:32,name:"Amex Blue Business Plus",issuer:"Amex",annualFee:0,apr:{low:18.49,high:26.49},rewardsRate:"2x on first $50K/yr, 1x after",rewardsHighlight:"2x",signUpBonus:"15K pts after $3K/3mo",creditNeeded:"Good (670+)",creditTier:"good",features:["No annual fee","2x on $50K/yr","Expanded buying power","Expense management"],category:"Business",rating:4.4,bestFor:"No-fee business earning",color:"#2563EB",gradientEnd:"#1D4ED8"},
+  {id:33,name:"Capital One Spark Cash Plus",issuer:"Capital One",annualFee:150,apr:{low:0,high:0},rewardsRate:"2% unlimited cash back, 5% hotels/cars via portal",rewardsHighlight:"5%",signUpBonus:"$1,200 after $30K/3mo",creditNeeded:"Excellent (740+)",creditTier:"excellent",features:["Unlimited 2% cashback","$1,200 bonus","No preset spending limit"],category:"Business",rating:4.3,bestFor:"High-spend businesses",color:"#6B4226",gradientEnd:"#4A2E1A"},
+  // ADDITIONAL CARDS
+  {id:34,name:"Amex Gold Card®",issuer:"Amex",annualFee:325,apr:{low:0,high:0},rewardsRate:"4x restaurants ($50K cap), 4x US supermarkets ($25K cap), 3x flights, 2x prepaid hotels via Amex Travel, 1x all",rewardsHighlight:"4x",signUpBonus:"Up to 100K pts after $6K/6mo",creditNeeded:"Good (670+)",creditTier:"good",features:["$120 Uber Cash","$120 dining credit","$100 Resy credit","$84 Dunkin' credit","Transfer to 17+ partners"],category:"Travel",rating:4.7,bestFor:"Dining & grocery power spenders",color:"#B8860B",gradientEnd:"#8B6914"},
+  {id:35,name:"Capital One Quicksilver",issuer:"Capital One",annualFee:0,apr:{low:19.99,high:29.99},rewardsRate:"1.5% unlimited cash back on all purchases",rewardsHighlight:"1.5%",signUpBonus:"$200 after $500/3mo",creditNeeded:"Good (670+)",creditTier:"good",features:["No annual fee","Flat 1.5% cashback","Intro 0% APR 15mo","CreditWise access"],category:"Cash Back",rating:4.3,bestFor:"Simple no-fee cash back",color:"#4A6341",gradientEnd:"#364A30"},
+  {id:36,name:"Bank of America® Customized Cash",issuer:"Bank of America",annualFee:0,apr:{low:19.24,high:29.24},rewardsRate:"3% in chosen category, 2% grocery/wholesale, 1% all",rewardsHighlight:"3%",signUpBonus:"$200 after $1K/3mo",creditNeeded:"Good (670+)",creditTier:"good",features:["No annual fee","Choose your 3% category","Preferred Rewards boost up to 75%","Online/mobile banking"],category:"Cash Back",rating:4.4,bestFor:"Customizable category rewards",color:"#C41230",gradientEnd:"#961025"},
+  {id:37,name:"U.S. Bank Altitude® Go",issuer:"U.S. Bank",annualFee:0,apr:{low:19.24,high:29.24},rewardsRate:"4x dining, 2x grocery/streaming/gas, 1x all",rewardsHighlight:"4%",signUpBonus:"$250 after $1K/3mo",creditNeeded:"Good (670+)",creditTier:"good",features:["No annual fee","4x dining","2x grocery & streaming","Intro 0% APR 15mo"],category:"Cash Back",rating:4.4,bestFor:"No-fee dining rewards",color:"#1C3F6E",gradientEnd:"#142E52"},
+  {id:38,name:"IHG One Rewards Premier",issuer:"Chase",annualFee:99,apr:{low:21.99,high:28.99},rewardsRate:"10x IHG, 5x travel/dining/gas, 3x all",rewardsHighlight:"10x",signUpBonus:"140K pts after $3K/3mo",creditNeeded:"Good (670+)",creditTier:"good",features:["Free night annually (up to 40K pts)","Auto Platinum Elite","4th reward night free","Global Entry credit"],category:"Hotel",rating:4.3,bestFor:"IHG loyalists",color:"#2D5F3D",gradientEnd:"#1E4530"},
+  {id:39,name:"Delta SkyMiles® Platinum Amex",issuer:"Amex",annualFee:350,apr:{low:21.49,high:30.49},rewardsRate:"3x Delta/hotels, 2x restaurants/supermarkets, 1x all",rewardsHighlight:"3x",signUpBonus:"80K + 20K miles after $4K+$2K/6mo",creditNeeded:"Good (670+)",creditTier:"good",features:["Companion Certificate annually","First bag free","MQD Headstart $2,500","Global Entry credit","$200 Delta Stays credit"],category:"Airline",rating:4.5,bestFor:"Frequent Delta flyers seeking Companion Pass",color:"#00264D",gradientEnd:"#001933"},
+  {id:40,name:"Capital One SavorOne Cash Rewards",issuer:"Capital One",annualFee:0,apr:{low:19.99,high:29.99},rewardsRate:"3% dining/entertainment/grocery/streaming, 5% hotels/cars via portal, 1% all",rewardsHighlight:"3%",signUpBonus:"$200 after $500/3mo",creditNeeded:"Good (670+)",creditTier:"good",features:["No annual fee","3% dining & entertainment","3% grocery & streaming","Capital One Entertainment"],category:"Cash Back",rating:4.5,bestFor:"No-fee dining & groceries",color:"#6E3B6E",gradientEnd:"#522B52"},
+  {id:41,name:"Petal® 2 \"Cash Back, No Fees\" Visa",issuer:"Petal",annualFee:0,apr:{low:18.24,high:32.24},rewardsRate:"1% cashback, up to 1.5% after 12 on-time payments",rewardsHighlight:"1.5%",signUpBonus:"None",creditNeeded:"No Credit / Limited",creditTier:"none",features:["No annual fee","No deposit required","Cash flow underwriting","Auto credit line increases"],category:"Student",rating:4.2,bestFor:"Building credit without a deposit",color:"#2A6B5A",gradientEnd:"#1D5244"},
+  {id:42,name:"Chase Ink Business Cash®",issuer:"Chase",annualFee:0,apr:{low:18.49,high:24.49},rewardsRate:"5% office supply/internet/phone ($25K/yr cap), 2% gas/dining, 1% all",rewardsHighlight:"5%",signUpBonus:"$350 after $3K/3mo",creditNeeded:"Good (670+)",creditTier:"good",features:["No annual fee","5% on office/internet/phone","Pairs w/ Sapphire cards","Employee cards at no cost"],category:"Business",rating:4.6,bestFor:"Small business essentials",color:"#1A1A2E",gradientEnd:"#0F0F1A"},
+  {id:43,name:"Amex Business Gold Card®",issuer:"Amex",annualFee:375,apr:{low:0,high:0},rewardsRate:"4x on top 2 spending categories each month (from 6 options, $150K cap), 1x all",rewardsHighlight:"4x",signUpBonus:"100K pts after $15K/3mo",creditNeeded:"Good (670+)",creditTier:"good",features:["4x auto top categories","Flexible payment options","Transfer to airline/hotel partners","Expense management tools"],category:"Business",rating:4.4,bestFor:"Businesses with varied spending",color:"#8B7D3C",gradientEnd:"#6B6030"},
+  // MORE CARDS
+  {id:44,name:"Citi® Custom Cash℠ Card",issuer:"Citi",annualFee:0,apr:{low:19.24,high:29.24},rewardsRate:"5% on top eligible spend category each billing cycle ($500 cap), 1% all",rewardsHighlight:"5%",signUpBonus:"$200 after $1.5K/6mo",creditNeeded:"Good (670+)",creditTier:"good",features:["No annual fee","Auto 5% top category","Citi Entertainment","Intro 0% APR 15mo"],category:"Cash Back",rating:4.5,bestFor:"Automatic top-category maximizer",color:"#2C5F7C",gradientEnd:"#1E4558"},
+  {id:45,name:"Hilton Honors Amex Card",issuer:"Amex",annualFee:0,apr:{low:22.49,high:29.49},rewardsRate:"7x Hilton, 5x dining/supermarkets/gas, 3x all",rewardsHighlight:"7x",signUpBonus:"70K pts after $2K/6mo",creditNeeded:"Good (670+)",creditTier:"good",features:["No annual fee","7x at Hilton","5x dining & groceries","Auto Hilton Silver status"],category:"Hotel",rating:4.2,bestFor:"No-fee Hilton earner",color:"#004B87",gradientEnd:"#003560"},
+  {id:46,name:"United Quest℠ Card",issuer:"Chase",annualFee:250,apr:{low:22.49,high:29.49},rewardsRate:"3x United, 2x dining/hotels/streaming, 1x all",rewardsHighlight:"3x",signUpBonus:"70K miles after $4K/3mo",creditNeeded:"Good (670+)",creditTier:"good",features:["Up to $125 United credit","5K-mile anniversary bonus","25% back on award flights","Two free checked bags"],category:"Airline",rating:4.4,bestFor:"Frequent United flyers wanting perks",color:"#002B5C",gradientEnd:"#001B3D"},
+  {id:47,name:"Amex® Green Card",issuer:"Amex",annualFee:150,apr:{low:0,high:0},rewardsRate:"3x travel/transit, 3x dining, 1x all",rewardsHighlight:"3x",signUpBonus:"40K pts after $3K/6mo",creditNeeded:"Good (670+)",creditTier:"good",features:["$189 CLEAR® Plus credit","3x dining & travel","Transfer to 17+ partners","LoungeBuddy credit"],category:"Travel",rating:4.2,bestFor:"Budget-friendly Amex travel entry",color:"#2E7D32",gradientEnd:"#1B5E20"},
+  {id:48,name:"Venture X Business",issuer:"Capital One",annualFee:395,apr:{low:0,high:0},rewardsRate:"10x hotels/car via portal, 5x flights, 2x all else",rewardsHighlight:"10x",signUpBonus:"150K miles after $30K/6mo",creditNeeded:"Excellent (740+)",creditTier:"excellent",features:["$300 travel credit","10K-mile anniversary bonus","Priority Pass","Capital One Lounges"],category:"Business",rating:4.6,bestFor:"Premium business travel",color:"#3B2F2F",gradientEnd:"#251E1E"},
+  {id:49,name:"Wells Fargo Autograph℠ Card",issuer:"Wells Fargo",annualFee:0,apr:{low:20.24,high:29.99},rewardsRate:"3x dining/travel/gas/transit/streaming/phone plans, 1x all",rewardsHighlight:"3x",signUpBonus:"$300 after $1.5K/3mo",creditNeeded:"Good (670+)",creditTier:"good",features:["No annual fee","3x across 6 categories","Cell phone protection","Intro 0% APR 12mo"],category:"Cash Back",rating:4.5,bestFor:"Broad 3x categories with no fee",color:"#7B1818",gradientEnd:"#5A1010"},
+  {id:50,name:"Bank of America® Travel Rewards",issuer:"Bank of America",annualFee:0,apr:{low:19.24,high:29.24},rewardsRate:"1.5x on all purchases, redeemable as statement credit for travel",rewardsHighlight:"1.5x",signUpBonus:"25K pts after $1K/3mo",creditNeeded:"Good (670+)",creditTier:"good",features:["No annual fee","1.5x unlimited","Preferred Rewards boost up to 75%","No travel booking restrictions"],category:"Travel",rating:4.1,bestFor:"Simple no-fee travel rewards",color:"#C41230",gradientEnd:"#8E0D22"},
+  {id:51,name:"Capital One Quicksilver Student",issuer:"Capital One",annualFee:0,apr:{low:19.99,high:29.99},rewardsRate:"1.5% unlimited cash back, 5% hotels/cars via portal",rewardsHighlight:"1.5%",signUpBonus:"$50 after $100/3mo",creditNeeded:"No Credit / Limited",creditTier:"none",features:["No annual fee","Flat 1.5% cashback","Auto credit line increase","CreditWise access"],category:"Student",rating:4.3,bestFor:"Student flat-rate simplicity",color:"#456B8A",gradientEnd:"#33506A"},
+  {id:52,name:"Bilt Obsidian Card",issuer:"Bilt / Cardless",annualFee:95,apr:{low:26.74,high:34.74},rewardsRate:"3x dining or grocery (choose one, $25K cap), 2x travel, 1x all + points on rent/mortgage",rewardsHighlight:"3x",signUpBonus:"$200 Bilt Cash on approval",creditNeeded:"Good (670+)",creditTier:"good",features:["$95 annual fee","Earn points on rent & mortgage","$100 hotel credit","Transfer to 23+ airline/hotel partners","1:1 Hyatt transfers","10% intro APR 12mo"],category:"Travel",rating:4.5,bestFor:"Renters & homeowners wanting travel rewards",color:"#0D0D0D",gradientEnd:"#2A2A2A"},
+  {id:53,name:"OpenSky® Secured Visa",issuer:"OpenSky",annualFee:35,apr:{low:24.64,high:24.64},rewardsRate:"No rewards program",rewardsHighlight:"—",signUpBonus:"None",creditNeeded:"No Credit Check",creditTier:"none",features:["No credit check","Reports to 3 bureaus","$200–$3,000 deposit range","Online account management"],category:"Secured",rating:3.8,bestFor:"Guaranteed approval credit building",color:"#5C4033",gradientEnd:"#402D24"},
+];
+
+const CATEGORIES=["All","Cash Back","Travel","Premium Travel","Airline","Hotel","Student","Secured","Balance Transfer","Business"];
+let state={category:"All",sortBy:"rating",search:"",feeFilter:"any",creditFilter:"any",compareIds:[],watchIds:JSON.parse(localStorage.getItem("wallzy_watchIds")||"[]"),userEmail:localStorage.getItem("wallzy_email")||null,pendingWatchId:null};
+
+function saveState(){
+  localStorage.setItem("wallzy_watchIds",JSON.stringify(state.watchIds));
+  if(state.userEmail)localStorage.setItem("wallzy_email",state.userEmail);
+}
+
+function stars(r){let h='<div class="star-row">';for(let i=0;i<5;i++){const f=Math.floor(r),p=r-f,pct=i<f?100:i===f?p*100:0;h+=`<svg width="13" height="13" viewBox="0 0 24 24"><defs><linearGradient id="s${r}-${i}"><stop offset="${pct}%" stop-color="#F5A623"/><stop offset="${pct}%" stop-color="rgba(255,255,255,.15)"/></linearGradient></defs><path fill="url(#s${r}-${i})" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`}h+=`<span class="rn">${r}</span></div>`;return h}
+
+function getFiltered(){
+  let c=CARDS.filter(c=>{
+    if(state.category!=="All"&&c.category!==state.category)return false;
+    if(state.feeFilter!=="any"){
+      if(state.feeFilter==="0"&&c.annualFee!==0)return false;
+      if(state.feeFilter==="100"&&c.annualFee>=100)return false;
+      if(state.feeFilter==="250"&&c.annualFee>=250)return false;
+      if(state.feeFilter==="500"&&c.annualFee>=500)return false;
+      if(state.feeFilter==="500+"&&c.annualFee<500)return false;
+    }
+    if(state.creditFilter!=="any"){
+      const t=c.creditTier;
+      if(state.creditFilter==="none"&&t!=="none")return false;
+      if(state.creditFilter==="fair"&&!(t==="fair"||t==="none"))return false;
+      if(state.creditFilter==="good"&&!(t==="good"||t==="fair"||t==="none"))return false;
+      if(state.creditFilter==="excellent"&&t!=="excellent")return false;
+    }
+    if(state.search){const s=state.search.toLowerCase();if(!c.name.toLowerCase().includes(s)&&!c.issuer.toLowerCase().includes(s)&&!c.category.toLowerCase().includes(s))return false}
+    return true;
+  });
+  c.sort((a,b)=>{
+    if(state.sortBy==="rating")return b.rating-a.rating;
+    if(state.sortBy==="apr-low")return(a.apr.low||99)-(b.apr.low||99);
+    if(state.sortBy==="rewards"){const pa=parseFloat(a.rewardsHighlight)||0,pb=parseFloat(b.rewardsHighlight)||0;return pb-pa}
+    if(state.sortBy==="fee-low")return a.annualFee-b.annualFee;
+    return 0;
+  });
+  return c;
+}
+
+function renderCards(){
+  const cards=getFiltered(),grid=document.getElementById("cardGrid");
+  document.getElementById("resultsCount").textContent=`${cards.length} card${cards.length!==1?"s":""} found`;
+  if(!cards.length){grid.innerHTML='<div class="empty-state"><div class="emoji">🔍</div>No cards match your filters. Try adjusting your criteria.</div>';return}
+  grid.innerHTML=cards.map((c,i)=>{
+    const isCmp=state.compareIds.includes(c.id);
+    const isW=state.watchIds.includes(c.id);
+    const feeClass=c.annualFee===0?"free":"paid";
+    const feeText=c.annualFee===0?"$0 Annual Fee":"$"+c.annualFee+"/yr";
+    const aprText=c.apr.low===0&&c.apr.high===0?"N/A (Charge)":c.apr.low+"%–"+c.apr.high+"%";
+    return `<div class="card-tile" style="animation:fadeSlideUp .5s ${Math.min(i*40,600)}ms both cubic-bezier(.16,1,.3,1)">
+      ${isW?'<div class="watched-badge">🔔 WATCHING</div>':''}
+      <div class="card-header" style="background:linear-gradient(135deg,${c.color},${c.gradientEnd})"><div class="orb1"></div><div class="orb2"></div>
+        <div class="card-header-inner"><div><div class="card-issuer">${c.issuer}</div><h3 class="card-name">${c.name}</h3></div>
+        <div class="reward-badge"><div class="num">${c.rewardsHighlight}</div><div class="lbl">REWARDS</div></div></div></div>
+      <div class="card-body">
+        <div class="fee-tag ${feeClass}">✓ ${feeText}</div>
+        <div class="card-apr-row">
+          <div><div class="info-label">APR Range</div><div class="info-value">${aprText}</div></div>
+          <div><div class="info-label">Credit Needed</div><div class="info-value">${c.creditNeeded}</div></div>
+        </div>
+        <div class="card-section"><div class="info-label">Rewards</div><div class="card-section-text">${c.rewardsRate}</div></div>
+        <div class="card-section"><div class="info-label">Sign-Up Bonus</div><div class="card-section-text">${c.signUpBonus}</div></div>
+        ${stars(c.rating)}
+        <div class="best-for">Best for: ${c.bestFor}</div>
+        <div class="card-actions">
+          <button class="btn-c ${isCmp?'active':''}" onclick="toggleCmp(${c.id})">${isCmp?'✓ Comparing':'Compare'}</button>
+          <button class="btn-d" onclick="showDetail(${c.id})">Details</button>
+          <button class="btn-w ${isW?'active':''}" onclick="watchCard(${c.id})" title="${isW?'Watching for changes':'Watch for price changes'}"><span class="bell">${isW?'🔔':'🔕'}</span></button>
+        </div>
+      </div></div>`}).join("");
+  const fab=document.getElementById("compareFab");
+  if(state.compareIds.length>=2){fab.classList.add("visible");fab.textContent=`Compare ${state.compareIds.length} Cards →`}else fab.classList.remove("visible");
+}
+
+function renderCats(){document.getElementById("catBtns").innerHTML=CATEGORIES.map(c=>`<button class="filter-btn ${state.category===c?'active':''}" onclick="setCat('${c}')">${c}</button>`).join("")}
+function setCat(c){state.category=c;renderCats();renderCards()}
+function toggleCmp(id){if(state.compareIds.includes(id))state.compareIds=state.compareIds.filter(x=>x!==id);else if(state.compareIds.length<4)state.compareIds.push(id);renderCards()}
+
+function showDetail(id){
+  const c=CARDS.find(x=>x.id===id);if(!c)return;
+  document.getElementById("detailPanel").innerHTML=`
+    <div class="detail-header" style="background:linear-gradient(135deg,${c.color},${c.gradientEnd})">
+      <button class="close-btn" onclick="closeDetail()">✕</button>
+      <div class="card-issuer">${c.issuer}</div><h2>${c.name}</h2>${stars(c.rating)}
+    </div><div class="detail-body">
+      <div class="detail-stat-grid">
+        <div class="detail-stat"><div class="info-label">Annual Fee</div><div class="sv ${c.annualFee===0?'green':''}">$${c.annualFee}</div></div>
+        <div class="detail-stat"><div class="info-label">APR Low</div><div class="sv">${c.apr.low===0?'N/A':c.apr.low+'%'}</div></div>
+        <div class="detail-stat"><div class="info-label">APR High</div><div class="sv">${c.apr.high===0?'N/A':c.apr.high+'%'}</div></div>
+        <div class="detail-stat"><div class="info-label">Credit</div><div class="sv" style="font-size:13px">${c.creditNeeded}</div></div>
+      </div>
+      <div class="detail-section"><div class="info-label">Rewards</div><p>${c.rewardsRate}</p></div>
+      <div class="detail-section"><div class="info-label">Sign-Up Bonus</div><p>${c.signUpBonus}</p></div>
+      <div class="info-label" style="margin-top:4px">Key Features</div>
+      <div class="feature-tags">${c.features.map(f=>`<span class="feature-tag">✓ ${f}</span>`).join("")}</div>
+      <button class="email-submit" style="margin-top:18px" onclick="closeDetail();watchCard(${c.id})">${state.watchIds.includes(c.id)?'🔔 Watching for Changes':'🔔 Watch for Price Changes'}</button>
+    </div>`;
+  document.getElementById("detailOverlay").classList.add("visible");
+}
+function closeDetail(){document.getElementById("detailOverlay").classList.remove("visible")}
+
+function showComparison(){
+  const cards=CARDS.filter(c=>state.compareIds.includes(c.id));
+  const fields=[
+    {l:"Annual Fee",fn:c=>"$"+c.annualFee},
+    {l:"APR Range",fn:c=>c.apr.low===0&&c.apr.high===0?"N/A":c.apr.low+"%–"+c.apr.high+"%"},
+    {l:"Rewards",fn:c=>c.rewardsRate},
+    {l:"Sign-Up Bonus",fn:c=>c.signUpBonus},
+    {l:"Credit Needed",fn:c=>c.creditNeeded},
+    {l:"Rating",fn:c=>c.rating+"/5"},
+    {l:"Best For",fn:c=>c.bestFor},
+  ];
+  document.getElementById("comparisonPanel").innerHTML=`
+    <div class="comparison-header"><h2>Side-by-Side Comparison</h2><button class="close-btn" onclick="closeCmp()">✕</button></div>
+    <div style="overflow-x:auto"><table class="comparison-table">
+      <thead><tr><th></th>${cards.map(c=>`<th><div class="th-cn" style="background:linear-gradient(135deg,${c.color},${c.gradientEnd})">${c.name}</div></th>`).join("")}</tr></thead>
+      <tbody>${fields.map(f=>`<tr><td>${f.l}</td>${cards.map(c=>`<td>${f.fn(c)}</td>`).join("")}</tr>`).join("")}</tbody>
+    </table></div>`;
+  document.getElementById("comparisonOverlay").classList.add("visible");
+}
+function closeCmp(){document.getElementById("comparisonOverlay").classList.remove("visible")}
+
+function watchCard(id){
+  if(state.watchIds.includes(id)){state.watchIds=state.watchIds.filter(x=>x!==id);saveState();renderCards();return}
+  if(state.userEmail){
+    state.watchIds.push(id);
+    saveState();
+    pushToSheet();
+    renderCards();
+    return;
+  }
+  state.pendingWatchId=id;
+  showEmailGate(id);
+}
+
+function pushToSheet(){
+  if(!state.userEmail)return;
+  fetch("/api/add-to-waitlist",{
+    method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({email:state.userEmail,source:"card-comparison"})
+  }).catch(()=>{});
+}
+
+function showEmailGate(id){
+  const c=CARDS.find(x=>x.id===id);
+  document.getElementById("emailPanel").innerHTML=`
+    <div class="email-panel-top">
+      <div class="ep-icon">🔔</div>
+      <h2>Get Notified on Changes</h2>
+      <p>We'll alert you when sign-up bonuses, APR, annual fees, or rewards change${c?' for <strong>'+c.name+'</strong> and any other cards you watch':''}</p>
+    </div>
+    <div class="email-panel-body">
+      <input class="email-input" id="emailInput" type="email" placeholder="you@email.com" autocomplete="email">
+      <button class="email-submit" onclick="submitEmail()">Start Watching →</button>
+      <p class="email-fine">Free alerts. No spam. Unsubscribe anytime.</p>
+      <button class="email-skip" onclick="closeEmail()">Maybe later</button>
+    </div>`;
+  document.getElementById("emailOverlay").classList.add("visible");
+  setTimeout(()=>{const inp=document.getElementById("emailInput");if(inp)inp.focus()},300);
+}
+
+function submitEmail(){
+  const inp=document.getElementById("emailInput");
+  const email=inp.value.trim();
+  if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){inp.classList.add("error");inp.focus();return}
+  inp.classList.remove("error");
+  state.userEmail=email;
+  if(state.pendingWatchId&&!state.watchIds.includes(state.pendingWatchId)){state.watchIds.push(state.pendingWatchId)}
+  state.pendingWatchId=null;
+  saveState();
+
+  // ── Send to Google Sheets ──
+  pushToSheet();
+  // ─────────────────────────
+
+  const c=state.watchIds.length===1?CARDS.find(x=>x.id===state.watchIds[0]):null;
+  document.getElementById("emailPanel").innerHTML=`
+    <div class="email-success">
+      <div class="check">✅</div>
+      <h3>You're all set!</h3>
+      <p>We'll email <strong>${email}</strong> when ${c?c.name+' has':'any watched cards have'} bonus changes, fee updates, or new perks.</p>
+      <button class="email-submit" style="margin-top:18px;max-width:200px" onclick="closeEmail()">Got it</button>
+    </div>`;
+  renderCards();
+}
+
+function closeEmail(){document.getElementById("emailOverlay").classList.remove("visible");state.pendingWatchId=null}
+
+document.getElementById("searchInput").addEventListener("input",e=>{state.search=e.target.value;renderCards()});
+document.getElementById("sortSelect").addEventListener("change",e=>{state.sortBy=e.target.value;renderCards()});
+document.getElementById("feeSelect").addEventListener("change",e=>{state.feeFilter=e.target.value;renderCards()});
+document.getElementById("creditSelect").addEventListener("change",e=>{state.creditFilter=e.target.value;renderCards()});
+document.getElementById("compareFab").addEventListener("click",showComparison);
+document.getElementById("comparisonOverlay").addEventListener("click",e=>{if(e.target===e.currentTarget)closeCmp()});
+document.getElementById("detailOverlay").addEventListener("click",e=>{if(e.target===e.currentTarget)closeDetail()});
+document.getElementById("emailOverlay").addEventListener("click",e=>{if(e.target===e.currentTarget)closeEmail()});
+
+renderCats();renderCards();
+</script>
+</body>
+</html>

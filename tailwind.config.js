@@ -47,7 +47,7 @@ export default {
         },
         // Wallzy Brand Colors
         wallzy: {
-          darkBlue: "#00438A",
+          darkBlue: "#114378",
           yellow: "#FFC402",
           lightBlue: "#5493D5",
           white: "#F9F9F9",

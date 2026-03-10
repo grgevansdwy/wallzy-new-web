@@ -6,14 +6,13 @@ const AboutSection = () => {
     <section id="about" className="py-20 lg:py-32 bg-background">
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-8 flex items-center justify-center gap-0">
-            About Wallzy
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-8 flex items-center justify-center gap-2" style={{ fontFamily: "'Outfit', sans-serif" }}>
+            About <span className="bg-secondary text-secondary-foreground font-bold rounded-lg inline-block" style={{ padding: "6px 14px" }}>Wallzy</span>
           </h2>
 
           <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-12">
-            We <b>hate seeing money go to waste</b>. Everyone wants the best
-            deal, so we built Wallzy to
-            <b> optimize rewards and build credit portfolio</b> for everyone.
+            We believe you should earn every dollar of rewards you've worked for. That's why we built Wallzy — to help you
+            <b className="text-secondary"> optimize rewards</b><span className="text-muted-foreground"> and </span><b className="text-secondary">build credit</b> for everyone.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 max-w-4xl mx-auto">

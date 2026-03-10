@@ -17,7 +17,7 @@ const features = [
   },
   {
     icon: TrendingUp,
-    title: "Earn more, effortlessly",
+    title: "Earn More, Effortlessly.",
     description:
       "Never wonder which card to use again. Wallzy ensures you're using the best card for every single purchase.",
     color: "bg-secondary",
@@ -28,12 +28,14 @@ const FeaturesSection = () => {
   return (
     <section id="features" className="py-20 lg:py-32 bg-primary">
       <div className="container mx-auto px-6">
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-primary-foreground mb-4">
-          Discover Your Credit Card's
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-primary-foreground mb-16" style={{ fontFamily: "'Outfit', sans-serif" }}>
+          <div>Discover Your Credit Card's</div>
+          <div className="mt-2">
+            <span className="bg-secondary text-secondary-foreground font-bold rounded-lg inline-block" style={{ padding: "6px 14px" }}>
+              Maximum Potential.
+            </span>
+          </div>
         </h2>
-        <p className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-secondary mb-16">
-          Maximum Potential
-        </p>
 
         <div className="grid md:grid-cols-3 gap-8">
           {features.map((feature, index) => (

@@ -6,7 +6,7 @@ const HeroSection = () => {
   return (
     <section
       id="home"
-      className="relative min-h-screen bg-primary overflow-hidden pt-20"
+      className="relative bg-primary overflow-hidden pt-20 pb-8"
     >
       {/* Light beam decorative elements */}
       <div className="hidden md:block absolute right-0 top-1/4 w-[600px] h-[800px] opacity-30">
@@ -33,18 +33,18 @@ const HeroSection = () => {
                 <div className="absolute bottom-3 right-3 w-14 h-4 rounded-full bg-white/30" />
               </div>
             </div>
-            <h1 className="text-4xl md:text-4xl lg:text-6xl font-black text-primary-foreground leading-tight tracking-tight">
+            <h1 className="text-4xl md:text-4xl lg:text-6xl font-black text-primary-foreground leading-tight tracking-tight" style={{ fontFamily: "'Outfit', sans-serif" }}>
               <div>Stop Guessing,</div>
-              <div className="mt-1 lg:mt-4">
+              <div className="mt-1 lg:mt-4" style={{ lineHeight: "1.3" }}>
                 <span className="inline-block">
                   Start{" "}
-                  <span className="bg-secondary text-secondary-foreground px-3 py-1">
+                  <span className="bg-secondary text-secondary-foreground font-black rounded-lg inline-block" style={{ padding: "6px 14px" }}>
                     Earning.
                   </span>
                 </span>
               </div>
             </h1>
-            <p className="text-base md:text-lg text-primary-foreground/80 max-w-lg mx-auto md:mx-0 mb-6">
+            <p className="text-base md:text-lg text-white max-w-lg mx-auto md:mx-0 mb-6">
               Helping you earn more from every purchase.
             </p>
             <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-4">
@@ -57,7 +57,7 @@ const HeroSection = () => {
                     ?.scrollIntoView({ behavior: "smooth" })
                 }
               >
-                Start Earning
+                Join Waitlist
                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
               <Button
@@ -67,7 +67,18 @@ const HeroSection = () => {
                 className="border-2 border-white text-white bg-transparent hover:bg-white/15 font-semibold px-8 md:px-6 py-6 md:py-4 text-lg md:text-base rounded-lg group"
               >
                 <Link to="/byw">
-                  Build Your Portfolio
+                  Rewards Calculator
+                  <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="border-2 border-white text-white bg-transparent hover:bg-white/15 font-semibold px-8 md:px-6 py-6 md:py-4 text-lg md:text-base rounded-lg group"
+              >
+                <Link to="/compare">
+                  Card Comparison Tool
                   <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </Button>

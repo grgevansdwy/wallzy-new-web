@@ -9,31 +9,31 @@ const faqs = [
   {
     question: "What is Wallzy?",
     answer:
-      "An app that suggests the best credit card for you to use through a simple notification. We help you get the most rewards every time you shop.",
+      "Wallzy is an app that sends you a simple notification recommending the best credit card to use whenever you shop. No spreadsheets, no guessing. Just the right card at the right time.",
   },
   {
     question: "How does Wallzy work?",
     answer:
-      "Wallzy sends you a silent notification. It recommends which credit card in your wallet gives you the best rewards or deals at that specific store.",
+      "When you're near a store, Wallzy sends you a quiet notification recommending which card in your wallet earns the best rewards there. Once you leave, the notification disappears automatically.",
   },
   {
     question: "Is Wallzy safe, and can it hurt my credit score?",
     answer:
-      "Wallzy is safe and won't hurt your credit score because we don't link your accounts. You simply tell us which credit cards you own so we can remind you about payments and help you earn more rewards.",
+      "Wallzy is completely safe and has no impact on your credit score. We never link to your bank accounts — you simply tell us which cards you own, and we take care of the rest.",
   },
   {
     question: "How is Wallzy different from other recommendation apps?",
     answer:
-      "Wallzy has no affiliation with banks and will always be on your side. We also adopt set once, forget it approach so you never have to open the app again.",
+      "Wallzy has no affiliation with any bank, so our recommendations are always in your best interest. We also take a set-it-and-forget-it approach: once you're set up, you never need to open the app again.",
   },
   {
     question: "How can I get early access to Wallzy?",
     answer:
-      "You can join our waitlist through our website. We're currently in the beta phase, testing with early users and continuously improving the product based on their feedback.",
+      "Join our waitlist right here on the website. We're currently in beta, working closely with early users and refining the product based on their feedback.",
   },
   {
     question: "Is Wallzy free to use?",
-    answer: "Yes, it is completely free to use.",
+    answer: "Yes, Wallzy is completely free to use.",
   },
 ];
 
@@ -41,8 +41,8 @@ const FAQSection = () => {
   return (
     <section id="faq" className="py-20 lg:py-32 bg-background">
       <div className="container mx-auto px-6">
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-primary mb-16">
-          Frequently Asked Questions
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-primary mb-16" style={{ fontFamily: "'Outfit', sans-serif" }}>
+          Frequently Asked Questions.
         </h2>
 
         <div className="max-w-3xl mx-auto">

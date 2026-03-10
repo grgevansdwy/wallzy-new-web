@@ -42,12 +42,11 @@ const WaitlistSection = () => {
     >
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground mb-6">
-            Join Our Waitlist
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground mb-6" style={{ fontFamily: "'Outfit', sans-serif" }}>
+            Join Our Waitlist!
           </h2>
-          <p className="text-lg md:text-xl text-primary-foreground/80 mb-10">
-            Be among the first to experience Wallzy and get your early access
-            now!
+          <p className="text-lg md:text-xl text-white mb-10">
+            Be among the first to experience Wallzy and sign up to get notified for early access.
           </p>
 
           {submitted ? (

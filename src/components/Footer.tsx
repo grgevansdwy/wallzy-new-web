@@ -107,7 +107,7 @@ const Footer = () => {
                   href="#how-it-works"
                   className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
                 >
-                  How It Works
+                  Product
                 </a>
               </li>
               <li>

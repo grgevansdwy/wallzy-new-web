@@ -4,21 +4,21 @@ import phoneMockup from "@/assets/mockPhone3.svg";
 const features = [
   {
     icon: CreditCard,
-    title: "Default Card",
+    title: "The One-Card Habit",
     description:
-      "Most users have a go-to credit card they use for most purchases which leaves them hundreds to thousands of missing rewards each year.",
+      "Most people default to one card for everything — and end up missing out on hundreds, sometimes thousands, in rewards every year.",
   },
   {
     icon: Brain,
-    title: "Lack of Knowledge",
+    title: "Too Many Options",
     description:
-      "With countless merchants, it is nearly impossible to remember which card actually earns the most rewards at each store.",
+      "With so many cards and merchant categories, it's hard to keep track of which card earns the most at each store.",
   },
   {
     icon: FileText,
-    title: "Stagnant Portfolio",
+    title: "Outgrown Cards",
     description:
-      "Without a clear roadmap, many users stuck with starter cards far longer than necessary which cause them to not maximize their earning potential",
+      "Many people stick with their starter cards long after they've outgrown them, leaving a lot of earning potential on the table.",
   },
 ];
 
@@ -26,19 +26,20 @@ const AppExplanation = () => {
   return (
     <section
       id="how-it-works"
-      className="py-32 lg:py-48 bg-background relative"
+      className="py-16 lg:py-24 bg-background relative"
     >
       {/* Gradient overlay at bottom for transition to next section */}
       <div className="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-b from-transparent via-primary/30 to-primary pointer-events-none" />
 
       <div className="container mx-auto px-6 relative z-10">
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center text-primary mb-16 md:mb-20">
-          The Real Cost of Picking <br />
-          The{" "}
-          <span className="font-black relative inline-block">
-            Wrong Card
-            <div className="absolute -bottom-1 left-0 right-0 h-2 bg-secondary -z-50"></div>
-          </span>
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-primary mb-16 md:mb-20" style={{ fontFamily: "'Outfit', sans-serif" }}>
+          <div>The Real Cost of Picking</div>
+          <div className="mt-2">
+            the{" "}
+            <span className="bg-secondary text-secondary-foreground font-bold rounded-lg inline-block" style={{ padding: "6px 14px" }}>
+              Wrong Card.
+            </span>
+          </div>
         </h2>
 
         {/* Desktop Layout */}

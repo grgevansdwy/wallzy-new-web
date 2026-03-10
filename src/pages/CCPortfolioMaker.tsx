@@ -37,6 +37,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import logo from "@/assets/logo.png";
+import Navbar from "@/components/Navbar";
 import { db } from "@/lib/firebase";
 import {
   collection,
@@ -327,32 +328,9 @@ function CardsTable() {
 
   return (
     <div className="min-h-screen bg-wallzy-darkBlue flex flex-col">
-      <header className="flex items-center justify-between p-4 border-b border-white/10">
-        <Link
-          to="/"
-          className="flex items-center text-primary-foreground font-black text-xl tracking-tight hover:opacity-80 transition-opacity"
-        >
-          <img src={logo} alt="Wallzy" className="h-12 w-12 -mr-4" />
-          <span>allzy</span>
-        </Link>
-        <div className="flex items-center gap-6">
-          <Link
-            to="/byw"
-            className="text-white/50 hover:text-white text-sm font-medium transition-colors"
-          >
-            Build Wallet
-          </Link>
-          <Link
-            to="/byw/cards"
-            className="text-wallzy-yellow text-sm font-semibold border-b-2 border-wallzy-yellow pb-0.5"
-          >
-            Supported Cards
-          </Link>
-        </div>
-        <div className="w-12" />
-      </header>
+      <Navbar />
 
-      <div className="flex-1 overflow-y-auto p-4 max-w-6xl mx-auto w-full">
+      <div className="flex-1 overflow-y-auto p-4 max-w-6xl mx-auto w-full pt-24">
         <h2 className="text-white text-2xl font-bold mb-4">
           All Supported Cards
         </h2>
@@ -645,6 +623,7 @@ function PortfolioBuilder() {
   const [email, setEmail] = useState("");
   const [isSendingEmail, setIsSendingEmail] = useState(false);
   const [emailError, setEmailError] = useState<string | null>(null);
+  const [showSavePopup, setShowSavePopup] = useState(false);
 
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
@@ -679,6 +658,15 @@ function PortfolioBuilder() {
       });
     }
   }, [step, showTyping, ownedCards]);
+
+  useEffect(() => {
+    if (step === "results") {
+      const timer = setTimeout(() => setShowSavePopup(true), 1500);
+      return () => clearTimeout(timer);
+    } else {
+      setShowSavePopup(false);
+    }
+  }, [step]);
 
   const simulateTyping = (callback: () => void, delay = 800) => {
     setShowTyping(true);
@@ -1073,19 +1061,9 @@ function PortfolioBuilder() {
   return (
     <div className="min-h-screen bg-wallzy-darkBlue flex flex-col">
       {/* Header */}
-      <header className="flex items-center justify-between p-4 border-b border-white/10">
-        <Link
-          to="/"
-          className="flex items-center text-primary-foreground font-black text-xl tracking-tight hover:opacity-80 transition-opacity"
-        >
-          <img src={logo} alt="Wallzy" className="h-12 w-12 -mr-4" />
-          <span>allzy</span>
-        </Link>
-        <h1 className="text-wallzy-white font-bold text-xl md:text-2xl">
-          Credit Card Portfolio Builder
-        </h1>
-        <div className="w-12" />
-      </header>
+      <Navbar />
+
+      <div className="pt-16" />
 
       {/* Step Progress Indicator */}
       {step !== "welcome" && currentProgressIndex >= 0 && (
@@ -1157,46 +1135,26 @@ function PortfolioBuilder() {
               onAnimationComplete={() => {
                 if (walletClicked) handleStart();
               }}
-              className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-wallzy-darkBlue"
+              className="fixed inset-x-0 bottom-0 top-16 z-40 flex flex-col items-center justify-center bg-wallzy-darkBlue"
             >
-              {/* Logo top-left */}
-              <Link
-                to="/"
-                className="absolute top-5 left-5 z-20 flex items-center hover:opacity-70 transition-opacity"
-              >
-                <img src={logo} alt="Wallzy" className="h-10 w-10" />
-                <span className="text-white font-black text-lg tracking-tight -ml-3">
-                  allzy
-                </span>
-              </Link>
-
-              {/* Tab links top-right */}
-              <div className="absolute top-5 right-5 z-20 flex items-center gap-6">
-                <Link
-                  to="/byw"
-                  className="text-wallzy-yellow text-sm font-semibold border-b-2 border-wallzy-yellow pb-0.5"
-                >
-                  Build Wallet
-                </Link>
-                <Link
-                  to="/byw/cards"
-                  className="text-white/50 hover:text-white text-sm font-medium transition-colors"
-                >
-                  Supported Cards
-                </Link>
-              </div>
 
               {/* Title */}
-              <motion.h2
+              <motion.h1
                 initial={{ opacity: 0, y: -20 }}
                 animate={
                   walletClicked ? { opacity: 0, y: -30 } : { opacity: 1, y: 0 }
                 }
                 transition={{ delay: walletClicked ? 0 : 0.2, duration: 0.5 }}
-                className="relative z-10 text-3xl md:text-4xl lg:text-5xl font-black text-white mb-3 md:mb-4 text-center px-4"
+                className="relative z-10 text-3xl md:text-4xl lg:text-5xl font-black text-white mb-3 md:mb-4 text-center px-4 mt-16"
+                style={{ fontFamily: "'Outfit', sans-serif" }}
               >
-                Build Your <span className="text-wallzy-yellow">Wallet</span>
-              </motion.h2>
+                <div>Credit Card</div>
+                <div>
+                  <span className="bg-wallzy-yellow text-wallzy-darkBlue font-bold rounded-lg inline-block" style={{ padding: "6px 14px" }}>
+                    Rewards Calculator.
+                  </span>
+                </div>
+              </motion.h1>
 
               <motion.p
                 initial={{ opacity: 0, y: -10 }}
@@ -1204,10 +1162,12 @@ function PortfolioBuilder() {
                   walletClicked ? { opacity: 0, y: -20 } : { opacity: 1, y: 0 }
                 }
                 transition={{ delay: walletClicked ? 0 : 0.3, duration: 0.5 }}
-                className="relative z-10 text-white/60 text-sm md:text-base max-w-md mx-auto text-center mb-8 md:mb-10 px-6"
+                className="relative z-10 text-white/80 text-sm md:text-base max-w-md mx-auto text-center mb-8 md:mb-10 px-6"
+                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
               >
-                Find out how much you can save by having the right cards in your
-                wallet
+                Discover how much you could be earning in rewards — and get a{" "}
+                <span className="text-wallzy-yellow font-bold">personalized card recommendation</span>{" "}
+                tailored to your spending habits.
               </motion.p>
 
               {/* Wallet with stacking cards */}
@@ -2693,6 +2653,21 @@ function PortfolioBuilder() {
                 </motion.div>
               )}
 
+              {/* Save My Results above Keep */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="flex justify-center"
+              >
+                <Button
+                  onClick={() => setStep("email-capture")}
+                  className="bg-wallzy-yellow hover:bg-wallzy-yellow/90 text-wallzy-darkBlue font-semibold px-8 rounded-full"
+                >
+                  Save My Results
+                </Button>
+              </motion.div>
+
               {/* KEEP Section */}
               {strategy.keep.length > 0 && (
                 <motion.div
@@ -3211,6 +3186,42 @@ function PortfolioBuilder() {
           <MessageCircle className="w-5 h-5" />
         </motion.button>
       )}
+
+      {/* Save My Results Popup */}
+      <AnimatePresence>
+        {showSavePopup && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+            onClick={() => setShowSavePopup(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-wallzy-darkBlue border border-wallzy-yellow/30 rounded-2xl p-8 mx-6 max-w-sm w-full text-center shadow-2xl"
+            >
+              <p className="text-wallzy-white font-semibold text-lg mb-2">Your results are ready!</p>
+              <p className="text-wallzy-white/60 text-sm mb-6">Save your personalized portfolio strategy to review it anytime.</p>
+              <Button
+                onClick={() => { setShowSavePopup(false); setStep("email-capture"); }}
+                className="bg-wallzy-yellow hover:bg-wallzy-yellow/90 text-wallzy-darkBlue font-semibold px-8 rounded-full w-full mb-3"
+              >
+                Save My Results
+              </Button>
+              <button
+                onClick={() => setShowSavePopup(false)}
+                className="text-wallzy-white/40 hover:text-wallzy-white/70 text-sm transition-colors"
+              >
+                Maybe later
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
