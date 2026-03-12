@@ -1,5 +1,4 @@
 import { ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 const HeroSection = () => {
@@ -59,28 +58,6 @@ const HeroSection = () => {
               >
                 Join Waitlist
                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-              </Button>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="border-2 border-white text-white bg-transparent hover:bg-white/15 font-semibold px-8 md:px-6 py-6 md:py-4 text-lg md:text-base rounded-lg group"
-              >
-                <Link to="/byw">
-                  Rewards Calculator
-                  <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </Button>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="border-2 border-white text-white bg-transparent hover:bg-white/15 font-semibold px-8 md:px-6 py-6 md:py-4 text-lg md:text-base rounded-lg group"
-              >
-                <Link to="/compare">
-                  Card Comparison Tool
-                  <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                </Link>
               </Button>
             </div>
           </div>

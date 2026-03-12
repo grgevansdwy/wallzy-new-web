@@ -1,5 +1,5 @@
-import { GraduationCap, Heart, Target } from "lucide-react";
-import logo from "@/assets/logo_2.png";
+import { ArrowRight, Heart, Target } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const AboutSection = () => {
   return (
@@ -15,14 +15,12 @@ const AboutSection = () => {
             <b className="text-secondary"> optimize rewards</b><span className="text-muted-foreground"> and </span><b className="text-secondary">build credit</b> for everyone.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 max-w-4xl mx-auto mb-10">
             <div className="bg-card rounded-2xl p-4 md:p-6 shadow-lg border border-border">
               <div className="w-14 h-14 bg-secondary/20 rounded-2xl flex items-center justify-center mb-6 mx-auto">
                 <Heart className="w-7 h-7 text-secondary-foreground" />
               </div>
-              <h3 className="text-xl font-bold text-primary mb-4">
-                Our Mission
-              </h3>
+              <h3 className="text-xl font-bold text-primary mb-4">Our Mission</h3>
               <p className="text-muted-foreground">
                 Wallzy empowers you to get more from every purchase. We show you
                 which credit card to use in real-time, making rewards simple,
@@ -34,9 +32,7 @@ const AboutSection = () => {
               <div className="w-14 h-14 bg-accent/20 rounded-2xl flex items-center justify-center mb-6 mx-auto">
                 <Target className="w-7 h-7 text-accent" />
               </div>
-              <h3 className="text-xl font-bold text-primary mb-4">
-                Our Vision
-              </h3>
+              <h3 className="text-xl font-bold text-primary mb-4">Our Vision</h3>
               <p className="text-muted-foreground">
                 To transform how people interact with their finances by building
                 intelligent tools that simplify, maximize, and put control back
@@ -44,6 +40,19 @@ const AboutSection = () => {
               </p>
             </div>
           </div>
+
+          <Link
+            to="/thevision"
+            className="group flex flex-col sm:flex-row items-center justify-between gap-4 bg-primary rounded-2xl px-8 py-6 mt-4 hover:bg-primary/90 transition-colors text-left"
+          >
+            <div>
+              <p className="text-white/60 text-sm font-semibold uppercase tracking-widest mb-1">The bigger picture</p>
+              <p className="text-white text-xl font-bold">See the vision and data behind why we built Wallzy.</p>
+            </div>
+            <div className="flex-shrink-0 flex items-center gap-2 text-secondary font-semibold group-hover:gap-3 transition-all">
+              Read more <ArrowRight className="w-4 h-4" />
+            </div>
+          </Link>
         </div>
       </div>
     </section>

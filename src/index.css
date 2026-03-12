@@ -89,6 +89,10 @@
     font-family: "Roboto Flex", sans-serif;
   }
 
+  h1 {
+    font-family: "Outfit", sans-serif;
+  }
+
   html {
     scroll-behavior: smooth;
   }

@@ -38,24 +38,24 @@ const WaitlistSection = () => {
   return (
     <section
       id="waitlist"
-      className="py-20 lg:py-32 bg-primary relative overflow-hidden"
+      className="py-20 lg:py-32 bg-background relative overflow-hidden"
     >
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground mb-6" style={{ fontFamily: "'Outfit', sans-serif" }}>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-6" style={{ fontFamily: "'Outfit', sans-serif" }}>
             Join Our Waitlist!
           </h2>
-          <p className="text-lg md:text-xl text-white mb-10">
+          <p className="text-lg md:text-xl text-muted-foreground mb-10">
             Be among the first to experience Wallzy and sign up to get notified for early access.
           </p>
 
           {submitted ? (
-            <div className="bg-primary-foreground/10 backdrop-blur-lg rounded-2xl p-8 border border-primary-foreground/20 animate-fade-in-up">
-              <CheckCircle className="w-16 h-16 text-secondary mx-auto mb-4" />
-              <h3 className="text-2xl font-bold text-primary-foreground mb-2">
+            <div className="bg-card rounded-2xl p-8 border border-border animate-fade-in-up shadow-sm">
+              <CheckCircle className="w-16 h-16 text-secondary-foreground mx-auto mb-4" />
+              <h3 className="text-2xl font-bold text-primary mb-2">
                 You're on the list!
               </h3>
-              <p className="text-primary-foreground/80">
+              <p className="text-muted-foreground">
                 We'll notify you when Wallzy is ready for you. Thanks for
                 joining!
               </p>
@@ -73,7 +73,7 @@ const WaitlistSection = () => {
                   placeholder="Enter your email here"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="flex-1 bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50 h-14 rounded-xl"
+                  className="flex-1 bg-background border-border text-foreground placeholder:text-muted-foreground h-14 rounded-xl"
                   required
                   disabled={loading}
                 />
@@ -87,7 +87,7 @@ const WaitlistSection = () => {
                   <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </div>
-              <p className="text-sm text-primary-foreground/60">
+              <p className="text-sm text-muted-foreground">
                 No spam, ever. We'll only send you updates about Wallzy.
               </p>
             </form>

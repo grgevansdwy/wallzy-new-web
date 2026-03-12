@@ -33,11 +33,10 @@ const AppExplanation = () => {
 
       <div className="container mx-auto px-6 relative z-10">
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-primary mb-16 md:mb-20" style={{ fontFamily: "'Outfit', sans-serif" }}>
-          <div>The Real Cost of Picking</div>
-          <div className="mt-2">
-            the{" "}
+          <div>
+            More Cards, More Confusion —{" "}
             <span className="bg-secondary text-secondary-foreground font-bold rounded-lg inline-block" style={{ padding: "6px 14px" }}>
-              Wrong Card.
+              Until Now.
             </span>
           </div>
         </h2>

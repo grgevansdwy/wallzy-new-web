@@ -8,17 +8,30 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
   const [mobileToolsOpen, setMobileToolsOpen] = useState(false);
+  const [productOpen, setProductOpen] = useState(false);
+  const [mobileProductOpen, setMobileProductOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
+  const [mobileAboutOpen, setMobileAboutOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const location = useLocation();
   const navigate = useNavigate();
   const isHome = location.pathname === "/";
   const toolsRef = useRef<HTMLDivElement>(null);
+  const productRef = useRef<HTMLDivElement>(null);
+  const aboutRef = useRef<HTMLDivElement>(null);
 
   const navLinks = [
-    { name: "Home", href: "#home" },
-    { name: "Product", href: "#how-it-works" },
-    { name: "About", href: "#about" },
     { name: "FAQ", href: "#faq" },
+  ];
+
+  const aboutLinks = [
+    { name: "About Wallzy", href: "#about", type: "scroll" as const },
+    { name: "The Vision", to: "/thevision", type: "link" as const },
+  ];
+
+  const productLinks = [
+    { name: "How It Works", href: "#how-it-works", type: "scroll" as const },
+    { name: "Product Overview", to: "/product", type: "link" as const },
   ];
 
   const toolLinks = [
@@ -27,6 +40,7 @@ const Navbar = () => {
   ];
 
   const isToolActive = ["/byw", "/compare"].includes(location.pathname);
+  const isProductActive = location.pathname === "/product";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -53,11 +67,17 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close dropdown when clicking outside
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (toolsRef.current && !toolsRef.current.contains(e.target as Node)) {
         setToolsOpen(false);
+      }
+      if (productRef.current && !productRef.current.contains(e.target as Node)) {
+        setProductOpen(false);
+      }
+      if (aboutRef.current && !aboutRef.current.contains(e.target as Node)) {
+        setAboutOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -96,6 +116,96 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-14">
+            {/* Home link */}
+            <button
+              onClick={() => handleNavClick("#home")}
+              className={`text-white/90 hover:text-white font-medium text-md tracking-wide border-b-2 transition-all ${
+                isHome && activeSection === "home" ? "border-white text-white" : "border-transparent"
+              }`}
+            >
+              Home
+            </button>
+
+            {/* Product Dropdown */}
+            <div className="relative" ref={productRef}>
+              <button
+                onClick={() => setProductOpen((prev) => !prev)}
+                className={`flex items-center gap-1 text-white/90 hover:text-white font-medium text-md tracking-wide border-b-2 transition-all ${
+                  isProductActive || (isHome && activeSection === "how-it-works") ? "border-white text-white" : "border-transparent"
+                }`}
+              >
+                Product
+                <ChevronDown
+                  size={15}
+                  className={`transition-transform duration-200 ${productOpen ? "rotate-180" : ""}`}
+                />
+              </button>
+
+              {productOpen && (
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-48 bg-primary border border-white/15 rounded-xl shadow-xl overflow-hidden">
+                  {productLinks.map((item) =>
+                    item.type === "scroll" ? (
+                      <button
+                        key={item.name}
+                        onClick={() => { handleNavClick(item.href); setProductOpen(false); }}
+                        className="block w-full text-left px-5 py-3 text-sm font-medium text-white/80 hover:bg-white/10 transition-colors"
+                      >
+                        {item.name}
+                      </button>
+                    ) : (
+                      <Link
+                        key={item.name}
+                        to={item.to}
+
+                        onClick={() => setProductOpen(false)}
+                        className="block px-5 py-3 text-sm font-medium transition-colors hover:bg-white/10 text-white/80"
+                      >
+                        {item.name}
+                      </Link>
+                    )
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* About Dropdown */}
+            <div className="relative" ref={aboutRef}>
+              <button
+                onClick={() => setAboutOpen((prev) => !prev)}
+                className={`flex items-center gap-1 text-white/90 hover:text-white font-medium text-md tracking-wide border-b-2 transition-all ${
+                  location.pathname === "/thevision" || (isHome && activeSection === "about") ? "border-white text-white" : "border-transparent"
+                }`}
+              >
+                About
+                <ChevronDown size={15} className={`transition-transform duration-200 ${aboutOpen ? "rotate-180" : ""}`} />
+              </button>
+              {aboutOpen && (
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-44 bg-primary border border-white/15 rounded-xl shadow-xl overflow-hidden">
+                  {aboutLinks.map((item) =>
+                    item.type === "scroll" ? (
+                      <button
+                        key={item.name}
+                        onClick={() => { handleNavClick(item.href); setAboutOpen(false); }}
+                        className="block w-full text-left px-5 py-3 text-sm font-medium text-white/80 hover:bg-white/10 transition-colors"
+                      >
+                        {item.name}
+                      </button>
+                    ) : (
+                      <Link
+                        key={item.name}
+                        to={item.to}
+
+                        onClick={() => setAboutOpen(false)}
+                        className="block px-5 py-3 text-sm font-medium transition-colors hover:bg-white/10 text-white/80"
+                      >
+                        {item.name}
+                      </Link>
+                    )
+                  )}
+                </div>
+              )}
+            </div>
+
             {navLinks.map((link) => {
               const sectionId = link.href.substring(1);
               const isActive = isHome && activeSection === sectionId;
@@ -133,12 +243,9 @@ const Navbar = () => {
                     <Link
                       key={tool.to}
                       to={tool.to}
+
                       onClick={() => setToolsOpen(false)}
-                      className={`block px-5 py-3 text-sm font-medium transition-colors hover:bg-white/10 ${
-                        location.pathname === tool.to
-                          ? "text-white bg-white/10"
-                          : "text-white/80"
-                      }`}
+                      className="block px-5 py-3 text-sm font-medium transition-colors hover:bg-white/10 text-white/80"
                     >
                       {tool.name}
                     </Link>
@@ -172,6 +279,88 @@ const Navbar = () => {
           style={{ top: "4.5rem" }}
         >
           <div className="flex flex-col items-center justify-center h-full space-y-8 px-6">
+            <button
+              onClick={() => handleNavClick("#home")}
+              className="text-white text-2xl font-medium hover:text-secondary transition-colors"
+            >
+              Home
+            </button>
+
+            {/* Mobile Product Dropdown */}
+            <div className="flex flex-col items-center gap-4">
+              <button
+                onClick={() => setMobileProductOpen((prev) => !prev)}
+                className="flex items-center gap-1 text-white text-2xl font-medium hover:text-secondary transition-colors"
+              >
+                Product
+                <ChevronDown
+                  size={20}
+                  className={`transition-transform duration-200 ${mobileProductOpen ? "rotate-180" : ""}`}
+                />
+              </button>
+              {mobileProductOpen && (
+                <div className="flex flex-col items-center gap-4">
+                  {productLinks.map((item) =>
+                    item.type === "scroll" ? (
+                      <button
+                        key={item.name}
+                        onClick={() => { handleNavClick(item.href); setIsOpen(false); setMobileProductOpen(false); }}
+                        className="text-white/80 text-xl font-medium hover:text-secondary transition-colors"
+                      >
+                        {item.name}
+                      </button>
+                    ) : (
+                      <Link
+                        key={item.name}
+                        to={item.to}
+
+                        className="text-white/80 text-xl font-medium hover:text-secondary transition-colors"
+                        onClick={() => { setIsOpen(false); setMobileProductOpen(false); }}
+                      >
+                        {item.name}
+                      </Link>
+                    )
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Mobile About Dropdown */}
+            <div className="flex flex-col items-center gap-4">
+              <button
+                onClick={() => setMobileAboutOpen((prev) => !prev)}
+                className="flex items-center gap-1 text-white text-2xl font-medium hover:text-secondary transition-colors"
+              >
+                About
+                <ChevronDown size={20} className={`transition-transform duration-200 ${mobileAboutOpen ? "rotate-180" : ""}`} />
+              </button>
+              {mobileAboutOpen && (
+                <div className="flex flex-col items-center gap-4">
+                  {aboutLinks.map((item) =>
+                    item.type === "scroll" ? (
+                      <button
+                        key={item.name}
+                        onClick={() => { handleNavClick(item.href); setIsOpen(false); setMobileAboutOpen(false); }}
+                        className="text-white/80 text-xl font-medium hover:text-secondary transition-colors"
+                      >
+                        {item.name}
+                      </button>
+                    ) : (
+                      <Link
+                        key={item.name}
+                        to={item.to}
+
+                        className="text-white/80 text-xl font-medium hover:text-secondary transition-colors"
+                        onClick={() => { setIsOpen(false); setMobileAboutOpen(false); }}
+                      >
+                        {item.name}
+                      </Link>
+                    )
+                  )}
+                </div>
+              )}
+            </div>
+
             {navLinks.map((link) => (
               <button
                 key={link.name}
@@ -200,6 +389,7 @@ const Navbar = () => {
                     <Link
                       key={tool.to}
                       to={tool.to}
+
                       className="text-white/80 text-xl font-medium hover:text-secondary transition-colors"
                       onClick={() => { setIsOpen(false); setMobileToolsOpen(false); }}
                     >

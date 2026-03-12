@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import logo from "@/assets/logo.png";
 import mailIcon from "@/assets/mail.svg";
 import instagramIcon from "@/assets/instagram.svg";
@@ -51,7 +52,7 @@ const Footer = () => {
                 <a
                   href="https://instagram.com/wallzywallet"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="hover:text-primary-foreground transition-colors flex items-center gap-2 justify-center md:justify-start"
                 >
                   <img
@@ -70,7 +71,7 @@ const Footer = () => {
                 <a
                   href="https://www.tiktok.com/@wallzywallet"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="hover:text-primary-foreground transition-colors flex items-center gap-2 justify-center md:justify-start"
                 >
                   <img
@@ -95,45 +96,52 @@ const Footer = () => {
             </h4>
             <ul className="space-y-2 font-semibold">
               <li>
-                <a
-                  href="#home"
-                  className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
-                >
+                <a href="/#home" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
                   Home
                 </a>
               </li>
               <li>
-                <a
-                  href="#how-it-works"
-                  className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
-                >
+                <Link to="/product" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
                   Product
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#about"
-                  className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
-                >
+                <Link to="/thevision" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  The Vision
+                </Link>
+              </li>
+              <li>
+                <a href="/#about" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
                   About
                 </a>
               </li>
               <li>
-                <a
-                  href="#faq"
-                  className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
-                >
+                <a href="/#faq" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
                   FAQ
                 </a>
+              </li>
+              <li>
+                <Link to="/compare" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  Card Comparison
+                </Link>
+              </li>
+              <li>
+                <Link to="/byw" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  Rewards Calculator
+                </Link>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="mt-10 pt-8 border-t border-primary-foreground/20 text-center">
+        <div className="mt-10 pt-8 border-t border-primary-foreground/20 text-center flex flex-col sm:flex-row items-center justify-center gap-4">
           <p className="text-primary-foreground/60 text-sm font-bold">
             © {new Date().getFullYear()} Wallzy. All rights reserved.
           </p>
+          <div className="flex gap-4 text-sm">
+            <Link to="/privacy" className="text-primary-foreground/40 hover:text-primary-foreground/70 transition-colors">Privacy Policy</Link>
+            <Link to="/tos" className="text-primary-foreground/40 hover:text-primary-foreground/70 transition-colors">Terms of Service</Link>
+          </div>
         </div>
       </div>
     </footer>
