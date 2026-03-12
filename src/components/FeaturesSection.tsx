@@ -1,4 +1,5 @@
-import { Settings, Bell, TrendingUp } from "lucide-react";
+import { Settings, Bell, TrendingUp, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const features = [
   {
@@ -29,10 +30,10 @@ const FeaturesSection = () => {
     <section id="features" className="py-20 lg:py-32 bg-primary">
       <div className="container mx-auto px-6">
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-primary-foreground mb-16" style={{ fontFamily: "'Outfit', sans-serif" }}>
-          <div>Discover Your Credit Card's</div>
-          <div className="mt-2">
+          <div>
+            How{" "}
             <span className="bg-secondary text-secondary-foreground font-bold rounded-lg inline-block" style={{ padding: "6px 14px" }}>
-              Maximum Potential.
+              Wallzy Works.
             </span>
           </div>
         </h2>
@@ -57,6 +58,16 @@ const FeaturesSection = () => {
               </p>
             </div>
           ))}
+        </div>
+
+        <div className="text-center mt-12">
+          <Link
+            to="/product"
+            className="inline-flex items-center gap-2 bg-secondary text-secondary-foreground hover:bg-secondary/90 font-bold px-8 py-4 rounded-xl transition-colors group"
+          >
+            See the full product breakdown
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Link>
         </div>
       </div>
     </section>
