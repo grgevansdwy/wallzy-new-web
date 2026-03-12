@@ -86,8 +86,8 @@ const Product = () => {
       <Helmet>
         <title>How Wallzy Works — Same Wallet, More Rewards</title>
         <meta name="description" content="See how Wallzy's passive credit card recommendation engine works. Set it up once, and get a quiet nudge every time you're near a store — always using your best card." />
-        <link rel="canonical" href="https://wallzy.com/product" />
-        <meta property="og:url" content="https://wallzy.com/product" />
+        <link rel="canonical" href="https://wallzywallet.com/product" />
+        <meta property="og:url" content="https://wallzywallet.com/product" />
         <meta property="og:title" content="How Wallzy Works — Same Wallet, More Rewards" />
         <meta property="og:description" content="Set it up once, and get a quiet nudge every time you're near a store — always using your best card." />
       </Helmet>

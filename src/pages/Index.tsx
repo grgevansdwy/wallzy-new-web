@@ -28,8 +28,8 @@ const Index = () => {
       <Helmet>
         <title>Wallzy — Stop Guessing, Start Earning More Credit Card Rewards</title>
         <meta name="description" content="Wallzy helps you earn more from every purchase. Use our Credit Card Rewards Calculator and Card Comparison Tool to find the best card for your spending habits." />
-        <link rel="canonical" href="https://wallzy.com/" />
-        <meta property="og:url" content="https://wallzy.com/" />
+        <link rel="canonical" href="https://wallzywallet.com/" />
+        <meta property="og:url" content="https://wallzywallet.com/" />
         <meta property="og:title" content="Wallzy — Stop Guessing, Start Earning More Credit Card Rewards" />
         <meta property="og:description" content="Wallzy helps you earn more from every purchase. Use our Credit Card Rewards Calculator and Card Comparison Tool to find the best card for your spending habits." />
         <script type="application/ld+json">{`

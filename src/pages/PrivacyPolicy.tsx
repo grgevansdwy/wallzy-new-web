@@ -8,7 +8,7 @@ const PrivacyPolicy = () => {
       <Helmet>
         <title>Privacy Policy — Wallzy</title>
         <meta name="description" content="Wallzy's Privacy Policy. Learn how we collect, use, and protect your information." />
-        <link rel="canonical" href="https://wallzy.com/privacy" />
+        <link rel="canonical" href="https://wallzywallet.com/privacy" />
       </Helmet>
       <Navbar />
 

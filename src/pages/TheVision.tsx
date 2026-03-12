@@ -32,8 +32,8 @@ const TheVision = () => {
       <Helmet>
         <title>The Vision — Wallzy</title>
         <meta name="description" content="Americans leave $6B+ in credit card rewards on the table every year. Wallzy is the first passive solution that fixes the behaviour, not just the awareness. See the market opportunity." />
-        <link rel="canonical" href="https://wallzy.com/thevision" />
-        <meta property="og:url" content="https://wallzy.com/thevision" />
+        <link rel="canonical" href="https://wallzywallet.com/thevision" />
+        <meta property="og:url" content="https://wallzywallet.com/thevision" />
         <meta property="og:title" content="The Vision — Wallzy" />
         <meta property="og:description" content="Americans leave $6B+ in credit card rewards on the table every year. Wallzy is the first passive solution that fixes the behaviour, not just the awareness." />
       </Helmet>
